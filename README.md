@@ -15,6 +15,16 @@ A native iOS learning progress application built with SwiftUI, demonstrating mod
 - **Full Internationalization** with support for English, Spanish, and French
 
 ---
+APP DEMO 
+
+<img width="642" height="1389" alt="IMG_1953" src="https://github.com/user-attachments/assets/5e24d6c3-7f73-40f7-ba4f-0a2a79588f85" />
+<img width="642" height="1389" alt="Screenshot 2026-02-09 at 09 44 57" src="https://github.com/user-attachments/assets/2b619a4d-3871-4442-9195-7aef9cff9fdc" />
+<img width="642" height="1389" alt="Screenshot 2026-02-09 at 09 45 24" src="https://github.com/user-attachments/assets/01a3aedc-f1d7-47c0-b944-3054522f2df4" />
+
+
+https://github.com/user-attachments/assets/504d195c-0083-4cc2-ba24-4704166022ab
+
+
 
 ## 🚀 Getting Started
 
