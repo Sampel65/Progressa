@@ -1,0 +1,17 @@
+//
+//  taskApp.swift
+//  task
+//
+//  Created by Samson Oluwapelumi on 08/02/2026.
+//
+
+import SwiftUI
+
+@main
+struct taskApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
