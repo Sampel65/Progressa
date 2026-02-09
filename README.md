@@ -44,32 +44,7 @@ The app uses the Aeonik font family. All font files are included and registered 
 
 ## Architecture
 
-The app follows MVVM with a centralized store pattern. Here's how it's structured:
-
-```mermaid
-graph TD
-    A[SwiftUI Views] --> B[ViewModels]
-    B --> C[LearningStore]
-    C --> D[Persistence Layer]
-    
-    A --> A1[DashboardView]
-    A --> A2[LearningPathView]
-    A --> A3[AchievementView]
-    A --> A4[Auth Views]
-    
-    B --> B1[DashboardViewModel]
-    B --> B2[LearningPathViewModel]
-    B --> B3[AchievementViewModel]
-    
-    C --> C1[LearningPath]
-    C --> C2[UserProgress]
-    C --> C3[Achievements]
-    
-    D --> D1[JSON File]
-    D --> D2[Keychain]
-```
-
-The main idea is that `LearningStore` holds all the mutable state. ViewModels read from it and trigger updates, which then propagate reactively to all views. This avoids manual synchronization between screens.
+The app follows MVVM with a centralized store pattern. The main idea is that `LearningStore` holds all the mutable state. ViewModels read from it and trigger updates, which then propagate reactively to all views. This avoids manual synchronization between screens.
 
 Key components:
 
@@ -80,32 +55,13 @@ Key components:
 - **AppRouter**: Manages tab selection and navigation paths. Tapping the same tab twice resets its navigation stack.
 - **AuthStore**: Handles authentication state and stores credentials in Keychain.
 
+The flow is pretty straightforward: Views call methods on ViewModels, ViewModels interact with the Store, and the Store persists data. Since everything uses `@Observable`, changes automatically propagate to all views that depend on that data.
+
 ## Navigation
 
-Here's how users move through the app:
+Users start at the welcome screen where they can sign up or sign in. After authentication, they land on the main app with three tabs: Dashboard, Learning Path, and Achievements.
 
-```mermaid
-flowchart TD
-    Start[Welcome Screen] --> SignUp[Sign Up]
-    Start --> SignIn[Sign In]
-    
-    SignUp --> MainApp[Main App]
-    SignIn --> MainApp
-    
-    MainApp --> Dashboard[Dashboard Tab]
-    MainApp --> LearningPath[Learning Path Tab]
-    MainApp --> Achievements[Achievements Tab]
-    
-    Dashboard --> LessonDetail[Lesson Detail]
-    Dashboard --> LearningPath
-    Dashboard --> Achievements
-    
-    LearningPath --> StageDetail[Stage Detail]
-    StageDetail --> LessonDetail
-    LearningPath --> AchievementSheet[Achievement Sheet]
-    
-    Achievements --> Celebration[Celebration Overlay]
-```
+From the dashboard, you can tap the "For today" card to go to a lesson, or use the buttons to jump to other tabs. The learning path shows all stages in a serpentine layout - tap a completed stage to see the achievement sheet, or tap the current stage to see its lessons. The achievements tab lets you filter by category and view celebration overlays when you tap earned badges.
 
 ## Features
 
@@ -138,13 +94,7 @@ The achievement sheet includes animations, badge flip effects, and social sharin
 
 ### Lesson Completion
 
-When you complete a lesson:
-1. Tap "Mark as Complete"
-2. Celebration animation plays
-3. Store updates lesson status, progress, and checks for stage/achievement unlocks
-4. Streak updates
-5. All screens update automatically
-6. Milestone alerts show for stage completions
+When you complete a lesson, you tap "Mark as Complete", a celebration animation plays, and the store updates everything - lesson status, progress, stage completion checks, achievement unlocks, and streak. All screens update automatically thanks to the reactive store. Milestone alerts show for stage completions.
 
 ### Data Persistence
 
@@ -186,43 +136,27 @@ Tests cover models, store logic, and view models. The store is tested for lesson
 
 ## Project Structure
 
-```
-task/
-├── taskApp.swift
-├── ContentView.swift
-├── Info.plist
-├── DI/
-│   └── DependencyContainer.swift
-├── Services/
-│   ├── LearningService.swift
-│   ├── LearningStore.swift
-│   ├── AuthStore.swift
-│   ├── KeychainHelper.swift
-│   └── LearningProgressPersistence.swift
-├── Navigation/
-│   └── AppRouter.swift
-├── Models/
-│   ├── LearningModels.swift
-│   └── MockData.swift
-├── ViewModels/
-│   ├── DashboardViewModel.swift
-│   ├── LearningPathViewModel.swift
-│   └── AchievementViewModel.swift
-├── DesignSystem/
-│   ├── AppTheme.swift
-│   ├── L10n.swift
-│   └── Components/
-│       ├── LottieView.swift
-│       └── ProgressBarView.swift
-├── Views/
-│   ├── Auth/
-│   ├── Dashboard/
-│   ├── LearningPath/
-│   └── Achievement/
-├── Animations/
-└── Resources/
-    └── Localizable.xcstrings
-```
+The project is organized into a few main folders:
+
+**Root level**: `taskApp.swift` is the entry point, `ContentView.swift` handles the root view and auth routing, and `Info.plist` registers the custom fonts.
+
+**DI folder**: Just `DependencyContainer.swift` which sets up the dependency injection and provides the shared store through SwiftUI's Environment.
+
+**Services folder**: This is where the core logic lives. `LearningStore.swift` is the main store that holds all the learning data. `AuthStore.swift` manages authentication state. `LearningService.swift` defines the protocol for data access (currently mocked). `KeychainHelper.swift` wraps the iOS Keychain API for secure storage. `LearningProgressPersistence.swift` handles saving/loading the JSON file.
+
+**Navigation folder**: `AppRouter.swift` manages tab selection and keeps separate navigation paths for each tab.
+
+**Models folder**: `LearningModels.swift` has all the core data structures (Lesson, Stage, LearningPath, Achievement, etc.). `MockData.swift` provides the initial data for testing and development.
+
+**ViewModels folder**: Three view models - one for each main screen. They expose computed properties that read from the store and handle UI-specific logic.
+
+**DesignSystem folder**: `AppTheme.swift` defines all the colors, fonts, spacing, and gradients. `L10n.swift` has helper functions for localization. The Components subfolder has reusable UI components like `LottieView.swift` and `ProgressBarView.swift`.
+
+**Views folder**: Organized by feature. Auth has the welcome, login, and signup screens. Dashboard has the main dashboard and its sub-components. LearningPath has the path view, stage items, stage detail, and lesson detail. Achievement has the achievement grid, celebration overlays, and badge details.
+
+**Animations folder**: Contains all the Lottie JSON files for animations.
+
+**Resources folder**: `Localizable.xcstrings` has all the localization strings for English, Spanish, and French.
 
 ## Technical Details
 
@@ -254,43 +188,9 @@ To add a new language:
 
 ## Data Flow
 
-Here's what happens when you complete a lesson:
+When you complete a lesson, the view calls `store.completeLesson(lessonId)`. The store updates the lesson status, increments progress, checks if the stage is complete, checks for achievement unlocks, updates the streak, and saves to disk. Since the store is `@Observable`, all views that depend on it automatically update - the dashboard, learning path, and achievements screens all refresh without any manual synchronization.
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant View
-    participant Store
-    participant Persistence
-    
-    User->>View: Tap "Mark as Complete"
-    View->>Store: completeLesson(lessonId)
-    Store->>Store: Update lesson status
-    Store->>Store: Check stage completion
-    Store->>Store: Check achievements
-    Store->>Store: Update streak
-    Store->>Persistence: Save to disk
-    Store->>View: @Observable triggers update
-    View->>User: Show updated UI
-```
-
-And here's the authentication flow:
-
-```mermaid
-sequenceDiagram
-    participant App
-    participant AuthStore
-    participant Keychain
-    
-    App->>AuthStore: Check authState
-    AuthStore->>Keychain: Read credentials
-    alt Credentials exist
-        Keychain->>AuthStore: Return user data
-        AuthStore->>App: authenticated state
-    else No credentials
-        AuthStore->>App: onboarding state
-    end
-```
+For authentication, on app launch the `AuthStore` checks Keychain for existing credentials. If found, it restores the session and shows the main app. If not, it shows the welcome screen. When you sign up or sign in, credentials are saved to Keychain and the auth state updates, which triggers the UI to show the main app.
 
 ## Models
 
