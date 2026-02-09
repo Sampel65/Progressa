@@ -5,6 +5,7 @@
 //  Created by Samson Oluwapelumi on 08/02/2026.
 //
 
+
 import SwiftUI
 
 struct DashboardView: View {
@@ -50,7 +51,6 @@ struct DashboardView: View {
         }
     }
 
-    // MARK: - Dashboard Content
 
     @ViewBuilder
     private func dashboardContent(vm: DashboardViewModel) -> some View {
@@ -79,7 +79,6 @@ struct DashboardView: View {
                             )
                         }
 
-                        // Active Learning Path
                         if let path = vm.learningPath as LearningPath?,
                            let stage = vm.currentStage {
                             LearningPathSummaryCard(
@@ -91,7 +90,6 @@ struct DashboardView: View {
                             )
                         }
 
-                        // Badges
                         AchievementBadgesRow(
                             badges: MockData.dashboardBadges,
                             onViewAll: {
@@ -118,7 +116,6 @@ struct DashboardView: View {
         }
     }
 
-    // MARK: - Milestone Alert
 
     @ViewBuilder
     private func milestoneOverlay(message: String, store: LearningStore) -> some View {
@@ -162,7 +159,6 @@ struct DashboardView: View {
         .animation(.spring(response: 0.4, dampingFraction: 0.7), value: store.showMilestoneAlert)
     }
 
-    // MARK: - Loading
 
     private var loadingView: some View {
         VStack(spacing: AppSpacing.md) {

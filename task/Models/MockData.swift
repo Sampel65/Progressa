@@ -2,16 +2,15 @@
 //  MockData.swift
 //  task
 //
-//  Created by Samson Oluwapelumi on 08/02/2026.
+//  Created by Samson Oluwapelumi on 07/02/2026.
 //
+
 
 import Foundation
 
-// MARK: - Mock Data Provider
 
 enum MockData {
 
-    // MARK: - User Progress
 
     static let userProgress = UserProgress(
         currentStreak: 1,
@@ -24,14 +23,12 @@ enum MockData {
         userName: "Learner"
     )
 
-    // MARK: - Learning Path
 
     static let learningPath = LearningPath(
         id: UUID(),
         title: "Fullstack mobile engineer path",
         description: "Master fullstack mobile development from fundamentals to deployment",
         stages: [
-            // Stage 1 - Current (first stage for new user)
             Stage(
                 id: UUID(),
                 title: "Programming Basics",
@@ -45,7 +42,6 @@ enum MockData {
                 badgeIconName: "globe",
                 stageNumber: 1
             ),
-            // Stage 2 - Locked
             Stage(
                 id: UUID(),
                 title: "Git & Version Control",
@@ -59,7 +55,6 @@ enum MockData {
                 badgeIconName: "bolt.fill",
                 stageNumber: 2
             ),
-            // Stage 3 - Locked
             Stage(
                 id: UUID(),
                 title: "Learn React",
@@ -74,7 +69,6 @@ enum MockData {
                 badgeIconName: "atom",
                 stageNumber: 3
             ),
-            // Stage 4 - Locked
             Stage(
                 id: UUID(),
                 title: "Core Mobile UI Build",
@@ -88,7 +82,6 @@ enum MockData {
                 badgeIconName: "iphone",
                 stageNumber: 4
             ),
-            // Stage 5 - Locked
             Stage(
                 id: UUID(),
                 title: "Access Device Features",
@@ -101,7 +94,6 @@ enum MockData {
                 badgeIconName: "sensor.tag.radiowaves.forward",
                 stageNumber: 5
             ),
-            // Stage 6 - Locked
             Stage(
                 id: UUID(),
                 title: "Navigations and Forms",
@@ -114,7 +106,6 @@ enum MockData {
                 badgeIconName: "arrow.right.arrow.left",
                 stageNumber: 6
             ),
-            // Stage 7 - Locked
             Stage(
                 id: UUID(),
                 title: "Backend Architecture",
@@ -127,7 +118,6 @@ enum MockData {
                 badgeIconName: "server.rack",
                 stageNumber: 7
             ),
-            // Stage 8 - Locked
             Stage(
                 id: UUID(),
                 title: "Node.js & Express",
@@ -140,7 +130,6 @@ enum MockData {
                 badgeIconName: "network.badge.shield.half.filled",
                 stageNumber: 8
             ),
-            // Stage 9 - Locked
             Stage(
                 id: UUID(),
                 title: "Authentication & Authorization",
@@ -153,7 +142,6 @@ enum MockData {
                 badgeIconName: "lock.shield.fill",
                 stageNumber: 9
             ),
-            // Stage 10 - Locked
             Stage(
                 id: UUID(),
                 title: "Write and Run Tests",
@@ -166,7 +154,6 @@ enum MockData {
                 badgeIconName: "checkmark.seal.fill",
                 stageNumber: 10
             ),
-            // Stage 11 - Locked
             Stage(
                 id: UUID(),
                 title: "Publish your App",
@@ -183,10 +170,8 @@ enum MockData {
         ]
     )
 
-    // MARK: - Achievements
 
     static let achievements: [Achievement] = [
-        // ── All locked for fresh user — unlocked dynamically by LearningStore ──
         Achievement(
             id: UUID(), title: "Code Starter",
             description: "Complete Programming Basics",
@@ -285,7 +270,6 @@ enum MockData {
         ),
     ]
 
-    // MARK: - Dashboard Badges (matching Figma design)
 
     struct DashboardBadge: Identifiable {
         let id = UUID()
@@ -304,7 +288,6 @@ enum MockData {
         DashboardBadge(title: String(localized: "Milestone"), subtitle: String(localized: "Hit key goals"), gemColor: .purple),
     ]
 
-    // MARK: - Today's Lesson
 
     static var todayLesson: TodayLesson {
         let currentStage = learningPath.stages.first(where: { $0.state == .current })!

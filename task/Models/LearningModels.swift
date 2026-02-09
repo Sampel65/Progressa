@@ -2,28 +2,26 @@
 //  LearningModels.swift
 //  task
 //
-//  Created by Samson Oluwapelumi on 08/02/2026.
+//  Created by Samson Oluwapelumi on 07/02/2026.
 //
+
 
 import Foundation
 
-// MARK: - Stage Completion State
-
+/// Represents the completion state of a learning stage.
 enum StageState: String, Codable, CaseIterable {
     case completed
     case current
     case locked
 }
 
-// MARK: - Badge State
-
+/// Represents the unlock state of an achievement badge.
 enum BadgeState: String, Codable {
     case earned
     case locked
 }
 
-// MARK: - Lesson
-
+/// Represents a single lesson within a learning stage.
 struct Lesson: Identifiable, Codable, Equatable {
     let id: UUID
     let title: String
@@ -32,13 +30,14 @@ struct Lesson: Identifiable, Codable, Equatable {
     var isCompleted: Bool
     let iconName: String
 
+    /// Returns a formatted duration string for display (e.g., "25 min").
     var formattedDuration: String {
         "\(durationMinutes) min"
     }
 }
 
-// MARK: - Stage
-
+/// Represents a stage containing multiple lessons in the learning path.
+/// Stages progress from locked → current → completed as the user advances.
 struct Stage: Identifiable, Codable, Equatable {
     let id: UUID
     let title: String
@@ -48,52 +47,60 @@ struct Stage: Identifiable, Codable, Equatable {
     let badgeIconName: String
     let stageNumber: Int
 
+    /// Count of completed lessons in this stage.
     var completedLessonsCount: Int {
         lessons.filter(\.isCompleted).count
     }
 
+    /// Progress fraction from 0.0 to 1.0 based on completed lessons.
     var progressFraction: Double {
         guard !lessons.isEmpty else { return 0 }
         return Double(completedLessonsCount) / Double(lessons.count)
     }
 
+    /// Convenience property checking if stage is fully completed.
     var isFullyCompleted: Bool {
         state == .completed
     }
 }
 
-// MARK: - Learning Path
 
+/// Represents the complete learning path with all stages and lessons.
+/// Provides computed properties for progress tracking and navigation.
 struct LearningPath: Identifiable, Codable, Equatable {
     let id: UUID
     let title: String
     let description: String
     var stages: [Stage]
 
+    /// Index of the currently active stage (first stage with .current state).
     var currentStageIndex: Int {
         stages.firstIndex(where: { $0.state == .current }) ?? 0
     }
 
+    /// Total count of all lessons across all stages.
     var totalLessons: Int {
         stages.reduce(0) { $0 + $1.lessons.count }
     }
 
+    /// Total count of completed lessons across all stages.
     var completedLessons: Int {
         stages.reduce(0) { $0 + $1.completedLessonsCount }
     }
 
+    /// Overall progress fraction from 0.0 to 1.0 across all lessons.
     var overallProgress: Double {
         guard totalLessons > 0 else { return 0 }
         return Double(completedLessons) / Double(totalLessons)
     }
 
+    /// Count of completed stages.
     var completedStages: Int {
         stages.filter { $0.state == .completed }.count
     }
 }
 
-// MARK: - Achievement
-
+/// Represents an achievement badge that can be earned through learning milestones.
 struct Achievement: Identifiable, Codable, Equatable {
     let id: UUID
     let title: String
@@ -103,6 +110,7 @@ struct Achievement: Identifiable, Codable, Equatable {
     let earnedDate: Date?
     let category: AchievementCategory
 
+    /// Convenience property checking if achievement has been earned.
     var isEarned: Bool {
         state == .earned
     }
@@ -114,7 +122,6 @@ enum AchievementCategory: String, Codable, CaseIterable {
     case mastery = "Mastery"
     case special = "Special"
 
-    /// Display title for UI (English only).
     var localizedTitle: String {
         switch self {
         case .milestone: return "Milestone"
@@ -125,7 +132,6 @@ enum AchievementCategory: String, Codable, CaseIterable {
     }
 }
 
-// MARK: - User Progress
 
 struct UserProgress: Codable, Equatable {
     var currentStreak: Int
@@ -148,7 +154,6 @@ struct UserProgress: Codable, Equatable {
     }
 }
 
-// MARK: - Today's Lesson
 
 struct TodayLesson: Identifiable, Equatable {
     let id: UUID

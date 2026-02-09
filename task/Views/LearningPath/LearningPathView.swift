@@ -2,6 +2,9 @@
 //  LearningPathView.swift
 //  task
 //
+//  Created by Samson Oluwapelumi on 07/02/2026.
+//
+
 
 import SwiftUI
 
@@ -54,13 +57,11 @@ struct LearningPathView: View {
         }
     }
 
-    // MARK: - Path Content
 
     @ViewBuilder
     private func pathContent(vm: LearningPathViewModel) -> some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0) {
-                // Header matching Figma: back arrow, stage counter, title
                 pathHeader(vm: vm)
 
                 SerpentineStageGrid(
@@ -85,7 +86,6 @@ struct LearningPathView: View {
         }
     }
 
-    // MARK: - Path Header
 
     @ViewBuilder
     private func pathHeader(vm: LearningPathViewModel) -> some View {

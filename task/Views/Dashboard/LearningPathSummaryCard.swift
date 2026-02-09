@@ -2,6 +2,9 @@
 //  LearningPathSummaryCard.swift
 //  task
 //
+//  Created by Samson Oluwapelumi on 08/02/2026.
+//
+
 
 import SwiftUI
 
@@ -10,7 +13,6 @@ struct LearningPathSummaryCard: View {
     let currentStage: Stage
     let onViewPath: () -> Void
 
-    /// Blue badge when stage is in progress or completed; grey when not started (locked).
     private var badgeImageName: String {
         switch currentStage.state {
         case .current, .completed: return "blue_badge"

@@ -2,18 +2,14 @@
 //  LessonDetailView.swift
 //  task
 //
-//  Created by Samson Oluwapelumi on 08/02/2026.
+//  Created by Samson Oluwapelumi on 07/02/2026.
 //
+
 
 import SwiftUI
 import DotLottie
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Lesson Detail View
-// ═══════════════════════════════════════════════════════
 
-/// Displays lesson content and allows the user to mark it complete.
-/// On completion, a celebration animation plays before dismissing.
 struct LessonDetailView: View {
     let lesson: Lesson
     let store: LearningStore
@@ -25,7 +21,6 @@ struct LessonDetailView: View {
     @State private var checkScale: CGFloat = 0
     @State private var contentOpacity: Double = 0
 
-    /// Live version of the lesson from the store.
     private var isCompleted: Bool {
         store.learningPath.stages
             .flatMap(\.lessons)
@@ -33,7 +28,6 @@ struct LessonDetailView: View {
             .isCompleted ?? lesson.isCompleted
     }
 
-    /// Find which stage this lesson belongs to.
     private var parentStage: Stage? {
         store.learningPath.stages.first(where: { stage in
             stage.lessons.contains(where: { $0.id == lesson.id })
@@ -44,13 +38,10 @@ struct LessonDetailView: View {
         ZStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 24) {
-                    // Hero area
                     lessonHero
 
-                    // Mock content
                     lessonContent
 
-                    // Complete button
                     if !isCompleted && !showCompleted {
                         completeButton
                     }
@@ -62,7 +53,6 @@ struct LessonDetailView: View {
             }
             .background(Color(hex: "F5F5FA"))
 
-            // Completion celebration overlay
             if showCompleted {
                 completionOverlay
             }
@@ -86,11 +76,9 @@ struct LessonDetailView: View {
         }
     }
 
-    // MARK: - Hero
 
     private var lessonHero: some View {
         VStack(spacing: 16) {
-            // Icon
             ZStack {
                 Circle()
                     .fill(
@@ -107,18 +95,15 @@ struct LessonDetailView: View {
                     .foregroundStyle(.white)
             }
 
-            // Title
             Text(lesson.title)
                 .font(AppFont.bold(22))
                 .foregroundStyle(AppColors.textPrimary)
                 .multilineTextAlignment(.center)
 
-            // Subtitle
             Text(lesson.subtitle)
                 .font(AppFont.regular(15))
                 .foregroundStyle(AppColors.textSecondary)
 
-            // Duration & stage
             HStack(spacing: 16) {
                 Label(lesson.formattedDuration, systemImage: "clock")
                     .font(AppFont.medium(13))
@@ -137,7 +122,6 @@ struct LessonDetailView: View {
                     .fill(AppColors.primaryIndigo.opacity(0.08))
             )
 
-            // Already completed indicator
             if isCompleted && !showCompleted {
                 HStack(spacing: 6) {
                     Image(systemName: "checkmark.circle.fill")
@@ -153,7 +137,6 @@ struct LessonDetailView: View {
         .opacity(contentOpacity)
     }
 
-    // MARK: - Mock Content
 
     private var lessonContent: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -196,7 +179,6 @@ struct LessonDetailView: View {
         .opacity(contentOpacity)
     }
 
-    // MARK: - Complete Button
 
     private var completeButton: some View {
         Button {
@@ -219,13 +201,11 @@ struct LessonDetailView: View {
         .opacity(contentOpacity)
     }
 
-    // MARK: - Completion Overlay
 
     private var completionOverlay: some View {
         VStack(spacing: 24) {
             Spacer()
 
-            // Lottie checkmark animation with SwiftUI fallback
             LottieOrFallback(name: "welcome", loop: false, speed: 1.0) {
                 ZStack {
                     Circle()
@@ -249,7 +229,6 @@ struct LessonDetailView: View {
                 .font(AppFont.regular(16))
                 .foregroundStyle(AppColors.textSecondary)
 
-            // Continue button
             Button {
                 dismiss()
             } label: {
@@ -271,13 +250,10 @@ struct LessonDetailView: View {
         .background(Color(hex: "F5F5FA").opacity(0.95))
     }
 
-    // MARK: - Actions
 
     private func completeLesson() {
-        // 1. Complete in store (updates everywhere)
         store.completeLesson(lessonId: lesson.id)
 
-        // 2. Show celebration
         showCompleted = true
 
         withAnimation(.spring(response: 0.5, dampingFraction: 0.6).delay(0.1)) {
@@ -285,7 +261,6 @@ struct LessonDetailView: View {
         }
     }
 
-    // MARK: - Mock Content Strings
 
     private var overviewText: String {
         "In this lesson you'll explore the core concepts of \(lesson.title). Through practical examples and hands-on exercises, you'll build a strong understanding of the fundamentals that underpin modern software development. By the end, you'll be able to apply these concepts confidently in real-world projects."

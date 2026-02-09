@@ -5,6 +5,7 @@
 //  Created by Samson Oluwapelumi on 08/02/2026.
 //
 
+
 import SwiftUI
 
 struct GreetingHeaderView: View {
@@ -15,17 +16,13 @@ struct GreetingHeaderView: View {
     let userInitials: String
     var onSignOut: (() -> Void)? = nil
 
-    /// Extra bottom space so the bg image extends behind the top of the "For today" card
     var bottomOverflow: CGFloat = 60
 
     var body: some View {
         VStack(spacing: 0) {
-            // Safe area top padding
             Color.clear.frame(height: 56)
 
-            // === Top bar: Avatar | Streak | Chat ===
             HStack {
-                // User initials avatar (with sign-out menu)
                 Menu {
                     if let signOut = onSignOut {
                         Button(role: .destructive, action: signOut) {
@@ -45,7 +42,6 @@ struct GreetingHeaderView: View {
 
                 Spacer()
 
-                // Streak badge
                 HStack(spacing: 5) {
                     Image("flame")
                         .resizable()
@@ -67,7 +63,6 @@ struct GreetingHeaderView: View {
 
                 Spacer()
 
-                // Chat / message icon
                 Circle()
                     .fill(Color(hex: "DDD5F3").opacity(0.85))
                     .frame(width: 44, height: 44)
@@ -81,26 +76,22 @@ struct GreetingHeaderView: View {
             .padding(.horizontal, 20)
             .padding(.bottom, 20)
 
-            // === Mascot illustration ===
             Image("robotImage")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 200)
                 .padding(.bottom, 16)
 
-            // === Greeting text ===
             Text("\(greeting) \(userName)!")
                 .font(AppFont.bold(26))
                 .foregroundStyle(Color(hex: "1A1A2E"))
                 .multilineTextAlignment(.center)
 
-            // === Motivational subtitle ===
             Text(String(localized: "You're closer than you think 💪"))
                 .font(AppFont.regular(16))
                 .foregroundStyle(Color(hex: "8E8E93"))
                 .padding(.top, 6)
 
-            // Extra bottom space — bg continues behind the "For today" card
             Color.clear.frame(height: bottomOverflow)
         }
         .frame(maxWidth: .infinity)

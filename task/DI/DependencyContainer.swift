@@ -2,34 +2,27 @@
 //  DependencyContainer.swift
 //  task
 //
-//  Created by Samson Oluwapelumi on 08/02/2026.
+//  Created by Samson Oluwapelumi on 07/02/2026.
 //
+
 
 import SwiftUI
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Dependency Container
-// ═══════════════════════════════════════════════════════
-
-/// IoC container that provides shared dependencies.
-///
-/// The `store` is the single source of truth for all learning data.
-/// The `authStore` manages authentication state and credential storage.
-/// Every ViewModel receives the store, ensuring reactive updates propagate
-/// across the entire app (Dashboard, Learning Path, Achievements).
+/// Dependency injection container that provides shared instances of stores and services.
+/// Centralizes dependency management and enables easy testing through dependency substitution.
 @Observable
 final class DependencyContainer {
 
-    /// Authentication state manager — persists credentials via Keychain.
+    /// Shared authentication store instance.
     let authStore: AuthStore
 
-    /// Shared mutable data store — all ViewModels read/write through this.
+    /// Shared learning store instance (single source of truth for learning data).
     let store: LearningStore
 
-    /// Protocol-based service for architectural demonstration.
-    /// Used by unit tests that need to stub network behaviour.
+    /// Service protocol for learning data access (currently mocked, can be swapped for API).
     let learningService: LearningServiceProtocol
 
+    /// Initializes the container with default implementations or test doubles.
     init(
         authStore: AuthStore = AuthStore(),
         store: LearningStore = LearningStore(),
@@ -40,24 +33,22 @@ final class DependencyContainer {
         self.learningService = learningService
     }
 
-    // MARK: - ViewModel Factories
-
+    /// Factory method for creating DashboardViewModel with the shared store.
     func makeDashboardViewModel() -> DashboardViewModel {
         DashboardViewModel(store: store)
     }
 
+    /// Factory method for creating LearningPathViewModel with the shared store.
     func makeLearningPathViewModel() -> LearningPathViewModel {
         LearningPathViewModel(store: store)
     }
 
+    /// Factory method for creating AchievementViewModel with the shared store.
     func makeAchievementViewModel() -> AchievementViewModel {
         AchievementViewModel(store: store)
     }
 }
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Environment Key
-// ═══════════════════════════════════════════════════════
 
 private struct DependencyContainerKey: EnvironmentKey {
     static let defaultValue = DependencyContainer()

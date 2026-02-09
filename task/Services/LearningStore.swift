@@ -2,29 +2,45 @@
 //  LearningStore.swift
 //  task
 //
+//  Created by Samson Oluwapelumi on 07/02/2026.
+//
+
 
 import Foundation
 
-// MARK: - Learning Store
-
+/// Centralized store for all learning-related state and business logic.
+/// Acts as the single source of truth for learning progress, achievements, and user data.
+/// All mutations flow through this store, ensuring consistent state across the app.
 @Observable
 final class LearningStore {
 
-    // MARK: - Core Data
-
+    /// The complete learning path with all stages and lessons.
+    /// Mutations are private to ensure all updates go through controlled methods.
     private(set) var learningPath: LearningPath
+    
+    /// Aggregated user progress metrics including streak, completion counts, and dates.
     private(set) var userProgress: UserProgress
+    
+    /// All available achievements with their current unlock state.
     private(set) var achievements: [Achievement]
 
-    // MARK: - Events
-
+    /// Temporary state for UI feedback after lesson completion.
+    /// Set when a lesson is completed and cleared by the view after displaying.
     var recentlyCompletedLesson: Lesson?
+    
+    /// Achievements that were unlocked during the last lesson completion.
+    /// Used to trigger celebration animations in the UI.
     var recentlyUnlockedAchievements: [Achievement] = []
+    
+    /// Flag to show milestone alert when a stage is completed.
     var showMilestoneAlert = false
+    
+    /// Message to display in the milestone alert.
     var milestoneMessage = ""
 
-    // MARK: - Init
 
+    /// Initializes the store, attempting to load persisted data first.
+    /// Falls back to mock data if no saved progress exists (first launch).
     init(
         learningPath: LearningPath = MockData.learningPath,
         userProgress: UserProgress = MockData.userProgress,
@@ -41,8 +57,9 @@ final class LearningStore {
         }
     }
 
-    // MARK: - Computed
 
+    /// Computes the next lesson to display on the dashboard's "For Today" card.
+    /// Returns the first incomplete lesson in the current stage, or nil if all stages are complete.
     var todayLesson: TodayLesson? {
         guard let currentStage = learningPath.stages.first(where: { $0.state == .current }) else {
             return nil
@@ -69,8 +86,18 @@ final class LearningStore {
         achievements.filter(\.isEarned)
     }
 
-    // MARK: - Mutations
 
+    /// Marks a lesson as completed and triggers all related state updates.
+    /// This is the primary mutation method for lesson completion and orchestrates:
+    /// - Lesson status update
+    /// - Stage completion check and next stage unlock
+    /// - Achievement unlocking
+    /// - Streak calculation
+    /// - Progress metrics update
+    /// - Data persistence
+    ///
+    /// - Parameter lessonId: The unique identifier of the lesson to complete
+    /// - Returns: `true` if the lesson was successfully completed, `false` if not found or already completed
     @discardableResult
     func completeLesson(lessonId: UUID) -> Bool {
         guard let (stageIdx, lessonIdx) = findLesson(id: lessonId) else { return false }
@@ -98,8 +125,12 @@ final class LearningStore {
         return true
     }
 
-    // MARK: - Stage Completion
 
+    /// Checks if a stage is complete and handles progression logic.
+    /// When all lessons in the current stage are completed:
+    /// - Marks the stage as completed
+    /// - Unlocks the next stage (if available)
+    /// - Triggers milestone alert for UI feedback
     private func checkStageCompletion(stageIdx: Int) {
         let stage = learningPath.stages[stageIdx]
 
@@ -118,8 +149,15 @@ final class LearningStore {
         showMilestoneAlert = true
     }
 
-    // MARK: - Achievement Engine
 
+    /// Evaluates all locked achievements against current progress and unlocks those that meet criteria.
+    /// Achievement types checked:
+    /// - Milestone: First lesson, halfway point, all stages complete
+    /// - Streak: 3, 7, and 30 day streaks
+    /// - Mastery: Completion of specific stages
+    /// - Special: Custom criteria like completing 8 lessons
+    ///
+    /// - Returns: Array of newly unlocked achievements for celebration display
     private func checkAndUnlockAchievements() -> [Achievement] {
         var newlyUnlocked: [Achievement] = []
 
@@ -184,8 +222,13 @@ final class LearningStore {
         return newlyUnlocked
     }
 
-    // MARK: - Streak
 
+    /// Updates the learning streak based on the last active date.
+    /// Streak logic:
+    /// - If last active was yesterday: increment streak
+    /// - If last active was before yesterday: reset streak to 1
+    /// - If already active today: no change
+    /// Also updates the longest streak record if current exceeds it.
     private func updateStreak() {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
@@ -205,7 +248,6 @@ final class LearningStore {
         userProgress.lastActiveDate = Date()
     }
 
-    // MARK: - Helpers
 
     private func findLesson(id: UUID) -> (Int, Int)? {
         for (si, stage) in learningPath.stages.enumerated() {
@@ -238,15 +280,11 @@ final class LearningStore {
         persist()
     }
 
-    // MARK: - Clear All Data
 
-    /// Clears all learning progress data from disk.
-    /// This is automatically called when the app is deleted, but can also be called manually.
     func clearAllData() {
         LearningProgressPersistence.clearAll()
     }
 
-    // MARK: - Persistence
 
     private func persist() {
         LearningProgressPersistence.save(

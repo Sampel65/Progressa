@@ -5,22 +5,25 @@
 //  Created by Samson Oluwapelumi on 08/02/2026.
 //
 
+
 import Foundation
 
+/// ViewModel for the Dashboard screen.
+/// Exposes computed properties that read from the shared LearningStore.
+/// Handles UI-specific logic like time-based greetings and motivational messages.
 @Observable
 final class DashboardViewModel {
 
-    // MARK: - Dependencies
-
+    /// Reference to the shared learning store (single source of truth).
     let store: LearningStore
 
-    // MARK: - Local State
-
+    /// Loading state for async operations (currently unused but available for future API calls).
     var isLoading = false
+    
+    /// Error message to display if operations fail.
     var errorMessage: String?
 
-    // MARK: - Computed (reactive — reads from shared store)
-
+    /// All computed properties delegate directly to the store for reactive updates.
     var userProgress: UserProgress { store.userProgress }
 
     var todayLesson: TodayLesson? { store.todayLesson }
@@ -29,6 +32,8 @@ final class DashboardViewModel {
 
     var recentAchievements: [Achievement] { store.achievements }
 
+    /// Returns a time-appropriate greeting based on current hour.
+    /// Morning: 5-11, Afternoon: 12-16, Evening: 17-20, Night: 21-4.
     var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
@@ -39,6 +44,8 @@ final class DashboardViewModel {
         }
     }
 
+    /// Generates a contextual motivational message based on user progress.
+    /// Prioritizes streak achievements, then progress milestones, then encouragement for beginners.
     var motivationalMessage: String {
         let progress = store.userProgress
         if progress.currentStreak >= 7 {
@@ -66,26 +73,21 @@ final class DashboardViewModel {
         store.earnedAchievements.count
     }
 
-    // MARK: - Init
 
     init(store: LearningStore) {
         self.store = store
     }
 
-    // MARK: - Actions
 
-    /// Simulates an initial data fetch (delay only — store already has data).
     func loadDashboard() async {
         isLoading = true
         errorMessage = nil
 
-        // Simulate network latency
         try? await Task.sleep(for: .milliseconds(300))
 
         isLoading = false
     }
 
-    /// Complete the current "today" lesson.
     func completeCurrentLesson() {
         guard let lesson = todayLesson else { return }
         store.completeLesson(lessonId: lesson.lesson.id)

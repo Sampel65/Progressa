@@ -5,21 +5,14 @@
 //  Created by Samson Oluwapelumi on 08/02/2026.
 //
 
+
 import SwiftUI
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Achievement Sheet View
-// ═══════════════════════════════════════════════════════
 
-/// Full-screen achievement celebration sheet shown when tapping
-/// a completed stage in the Learning Path. Matches the Figma design
-/// with dark overlay, white bottom card, starburst animation,
-/// badge flip, and share capability.
 struct AchievementSheetView: View {
     let stage: Stage
     let onDismiss: () -> Void
 
-    // MARK: - State
 
     @State private var isFlipped = false
     @State private var badgeScale: CGFloat = 0.3
@@ -31,7 +24,6 @@ struct AchievementSheetView: View {
     @State private var showConfetti = false
     @State private var showShareSheet = false
 
-    // MARK: - Computed
 
     private var achievementTitle: String {
         "\(stage.title) mastery earned"
@@ -78,16 +70,13 @@ struct AchievementSheetView: View {
         stage.lessons.reduce(0) { $0 + $1.durationMinutes }
     }
 
-    // MARK: - Body
 
     var body: some View {
         ZStack {
-            // Dark overlay background
             Color(hex: "1A1A2E")
                 .ignoresSafeArea()
                 .onTapGesture { dismissSheet() }
 
-            // White bottom sheet
             VStack(spacing: 0) {
                 Spacer()
 
@@ -105,7 +94,6 @@ struct AchievementSheetView: View {
                     .offset(y: sheetOffset)
             }
 
-            // Confetti overlay
             if showConfetti {
                 SheetConfettiView()
                     .allowsHitTesting(false)
@@ -119,24 +107,19 @@ struct AchievementSheetView: View {
         }
     }
 
-    // MARK: - Sheet Content
 
     private var sheetContent: some View {
         VStack(spacing: 20) {
-            // Drag handle
             RoundedRectangle(cornerRadius: 3)
                 .fill(Color(hex: "D1D1D6"))
                 .frame(width: 40, height: 5)
                 .padding(.top, 14)
 
-            // Flip badge button
             flipBadgeButton
 
-            // Badge with starburst
             badgeArea
                 .frame(height: 250)
 
-            // Achievement title
             Text(achievementTitle)
                 .font(AppFont.bold(22))
                 .foregroundStyle(.black)
@@ -144,7 +127,6 @@ struct AchievementSheetView: View {
                 .padding(.horizontal, 32)
                 .opacity(contentOpacity)
 
-            // Motivational message
             Text(motivationalMessage)
                 .font(AppFont.regularItalic(15))
                 .foregroundStyle(AppColors.textSecondary)
@@ -152,16 +134,13 @@ struct AchievementSheetView: View {
                 .lineSpacing(4)
                 .padding(.horizontal, 36)
 
-            // Share button
             shareButton
                 .padding(.top, 8)
                 .padding(.bottom, 24)
-//                .opacity(contentOpacity)
         }
         .padding(.bottom, 16)
     }
 
-    // MARK: - Flip Badge Button
 
     private var flipBadgeButton: some View {
         Button {
@@ -191,17 +170,14 @@ struct AchievementSheetView: View {
         .opacity(contentOpacity)
     }
 
-    // MARK: - Badge Area (front / back with starburst)
 
     private var badgeArea: some View {
         ZStack {
-            // Starburst rays
             StarburstRaysView()
                 .frame(width: 280, height: 280)
                 .opacity(raysOpacity)
                 .rotationEffect(.degrees(raysRotation))
 
-            // Flip container
             ZStack {
                 Image(badgeImageName)
                     .resizable()
@@ -226,7 +202,6 @@ struct AchievementSheetView: View {
         }
     }
 
-    // MARK: - Badge Back (Stage Stats)
 
     private var badgeBackContent: some View {
         VStack(spacing: 10) {
@@ -269,7 +244,6 @@ struct AchievementSheetView: View {
         )
     }
 
-    // MARK: - Share Button
 
     private var shareButton: some View {
         Button {
@@ -288,36 +262,29 @@ struct AchievementSheetView: View {
         .padding(.horizontal, 24)
     }
 
-    // MARK: - Animations
 
     private func animateIn() {
-        // Slide sheet up
         withAnimation(.spring(response: 0.5, dampingFraction: 0.85)) {
             sheetOffset = 0
         }
 
-        // Badge entrance
         withAnimation(.spring(response: 0.7, dampingFraction: 0.6).delay(0.2)) {
             badgeScale = 1.0
             badgeOpacity = 1
         }
 
-        // Starburst
         withAnimation(.easeOut(duration: 0.6).delay(0.35)) {
             raysOpacity = 0.7
         }
 
-        // Continuous slow rotation for starburst
         withAnimation(.linear(duration: 40).repeatForever(autoreverses: false)) {
             raysRotation = 360
         }
 
-        // Content fade in
         withAnimation(.easeOut(duration: 0.45).delay(0.5)) {
             contentOpacity = 1
         }
 
-        // Confetti burst
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
             showConfetti = true
         }
@@ -338,29 +305,17 @@ struct AchievementSheetView: View {
     }
 }
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Starburst Rays View
-// ═══════════════════════════════════════════════════════
 
-/// 8-ray starburst with soft white/gray filled triangles and thin
-/// blue accent edge lines — matches the Figma badge decoration.
 private struct StarburstRaysView: View {
     var body: some View {
         BadgeStarburstView()
     }
 }
 
-/// Shared 8-ray starburst decoration used by both achievement sheets.
-/// Each ray is a wide triangle with a subtle gradient fill and thin
-/// light-blue stroke along its edges for crispness.
 struct BadgeStarburstView: View {
-    /// Number of rays — exactly 8 as per the design.
     var rayCount: Int = 8
-    /// How much of each 45° segment the ray occupies (0…1).
     var rayWidthFraction: Double = 0.55
-    /// Base fill colour of the rays.
     var fillColor: Color = Color(hex: "D8D5EC")
-    /// Thin accent line colour on ray edges.
     var strokeColor: Color = Color(hex: "B0BBDA")
 
     var body: some View {
@@ -373,8 +328,7 @@ struct BadgeStarburstView: View {
             let halfRay = segment * rayWidthFraction / 2
 
             for i in 0..<rayCount {
-                // Centre angle of this ray
-                let midAngle = segment * Double(i) - .pi / 2 // start from top
+                let midAngle = segment * Double(i) - .pi / 2
 
                 let startAngle = midAngle - halfRay
                 let endAngle   = midAngle + halfRay
@@ -388,18 +342,15 @@ struct BadgeStarburstView: View {
                     y: cy + outerR * sin(endAngle)
                 )
 
-                // ── Filled triangle ──
                 var tri = Path()
                 tri.move(to: center)
                 tri.addLine(to: tipA)
                 tri.addLine(to: tipB)
                 tri.closeSubpath()
 
-                // Alternate opacity for depth
                 let fillOpacity = i % 2 == 0 ? 0.18 : 0.10
                 context.fill(tri, with: .color(fillColor.opacity(fillOpacity)))
 
-                // ── Thin edge lines ──
                 var edge1 = Path()
                 edge1.move(to: center)
                 edge1.addLine(to: tipA)
@@ -416,11 +367,7 @@ struct BadgeStarburstView: View {
     }
 }
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Sheet Confetti
-// ═══════════════════════════════════════════════════════
 
-/// Colourful confetti burst for the achievement celebration.
 private struct SheetConfettiView: View {
     @State private var particles: [SheetParticle] = []
     @State private var isActive = false
@@ -479,11 +426,7 @@ private struct SheetParticle: Identifiable {
     let rotation: Double
 }
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Share Sheet (UIKit Bridge)
-// ═══════════════════════════════════════════════════════
 
-/// Wraps `UIActivityViewController` for sharing achievement text.
 struct ShareSheetView: UIViewControllerRepresentable {
     let activityItems: [Any]
 
@@ -500,9 +443,6 @@ struct ShareSheetView: UIViewControllerRepresentable {
     ) {}
 }
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Preview
-// ═══════════════════════════════════════════════════════
 
 #Preview("Achievement Sheet") {
     AchievementSheetView(

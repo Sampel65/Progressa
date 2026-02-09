@@ -5,6 +5,7 @@
 //  Created by Samson Oluwapelumi on 08/02/2026.
 //
 
+
 import SwiftUI
 
 struct AchievementBadgesRow: View {
@@ -13,12 +14,10 @@ struct AchievementBadgesRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.md) {
-            // Section header
             Text(String(localized: "Badges"))
                 .font(AppFont.bold(18))
                 .foregroundStyle(AppColors.textPrimary)
 
-            // Badge row using actual Figma assets
             HStack(spacing: AppSpacing.xs) {
                 ForEach(Array(badges.enumerated()), id: \.element.id) { index, badge in
                     FigmaBadgeView(
@@ -33,7 +32,6 @@ struct AchievementBadgesRow: View {
         }
     }
 
-    /// Map badge index to the actual Figma asset name
     private func badgeImageName(for index: Int) -> String {
         switch index {
         case 0: return "blue_badge"
@@ -44,7 +42,6 @@ struct AchievementBadgesRow: View {
     }
 }
 
-// MARK: - Figma Badge View (using exported badge assets)
 
 struct FigmaBadgeView: View {
     let badge: MockData.DashboardBadge
@@ -52,18 +49,15 @@ struct FigmaBadgeView: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            // Badge image from Figma
             Image(imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 80, height: 80)
 
-            // Title
             Text(badge.title)
                 .font(AppFont.medium(14))
                 .foregroundStyle(AppColors.textPrimary)
 
-            // Subtitle
             Text(badge.subtitle)
                 .font(AppFont.regular(11))
                 .foregroundStyle(AppColors.textSecondary)

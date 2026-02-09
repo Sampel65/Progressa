@@ -2,29 +2,28 @@
 //  LearningProgressPersistence.swift
 //  task
 //
+//  Created by Samson Oluwapelumi on 07/02/2026.
+//
+
 
 import Foundation
 
-// MARK: - Persisted State
-
+/// Internal structure for encoding/decoding complete learning state to JSON.
 private struct PersistedLearningState: Codable {
     let learningPath: LearningPath
     let userProgress: UserProgress
     let achievements: [Achievement]
 }
 
-// MARK: - Learning Progress Persistence
-
-/// Manages persistence of learning progress data.
-/// 
-/// Files stored in Application Support are automatically deleted by iOS
-/// when the app is uninstalled from the device.
+/// Handles persistence of learning progress to disk in Application Support directory.
+/// Files are automatically deleted by iOS when the app is uninstalled.
 enum LearningProgressPersistence {
 
     private static let fileName = "learning_progress.json"
 
+    /// Returns the file URL in Application Support/Progressa directory.
+    /// Creates the directory if it doesn't exist.
     private static var fileURL: URL {
-        // Files in Application Support are automatically deleted when app is uninstalled
         let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         let appSupport = directory.appendingPathComponent("Progressa", isDirectory: true)
         if !FileManager.default.fileExists(atPath: appSupport.path) {
@@ -33,6 +32,9 @@ enum LearningProgressPersistence {
         return appSupport.appendingPathComponent(fileName)
     }
 
+    /// Loads persisted learning state from disk.
+    /// Returns `nil` if file doesn't exist or decoding fails (first launch or corrupted data).
+    /// Uses ISO8601 date encoding for proper Date serialization.
     static func load() -> (learningPath: LearningPath, userProgress: UserProgress, achievements: [Achievement])? {
         guard FileManager.default.fileExists(atPath: fileURL.path) else { return nil }
         guard let data = try? Data(contentsOf: fileURL) else { return nil }
@@ -42,6 +44,9 @@ enum LearningProgressPersistence {
         return (state.learningPath, state.userProgress, state.achievements)
     }
 
+    /// Saves complete learning state to disk as JSON.
+    /// Uses pretty printing and sorted keys for readable/debuggable JSON files.
+    /// Silently fails if encoding or writing fails (non-critical operation).
     static func save(learningPath: LearningPath, userProgress: UserProgress, achievements: [Achievement]) {
         let state = PersistedLearningState(
             learningPath: learningPath,
@@ -55,15 +60,11 @@ enum LearningProgressPersistence {
         try? data.write(to: fileURL)
     }
 
-    /// Deletes all persisted learning progress data.
-    /// This is automatically called when the app is deleted, but can also be called manually.
     static func clearAll() {
-        // Delete the progress file
         if FileManager.default.fileExists(atPath: fileURL.path) {
             try? FileManager.default.removeItem(at: fileURL)
         }
         
-        // Also delete the Progressa directory if it's empty
         let directory = fileURL.deletingLastPathComponent()
         if let contents = try? FileManager.default.contentsOfDirectory(atPath: directory.path),
            contents.isEmpty {

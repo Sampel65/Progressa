@@ -2,25 +2,19 @@
 //  StageDetailView.swift
 //  task
 //
-//  Created by Samson Oluwapelumi on 08/02/2026.
+//  Created by Samson Oluwapelumi on 07/02/2026.
 //
+
 
 import SwiftUI
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Stage Detail View
-// ═══════════════════════════════════════════════════════
 
-/// Shows all lessons in a stage with their completion states.
-/// The user can tap any incomplete lesson to navigate to
-/// `LessonDetailView` and complete it.
 struct StageDetailView: View {
     let stage: Stage
     let store: LearningStore
 
     @Environment(\.dismiss) private var dismiss
 
-    /// Live version of the stage (re-read from store for reactivity).
     private var liveStage: Stage {
         store.learningPath.stages.first(where: { $0.id == stage.id }) ?? stage
     }
@@ -28,10 +22,8 @@ struct StageDetailView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
-                // Header
                 stageHeader
 
-                // Lessons list
                 VStack(spacing: 12) {
                     ForEach(Array(liveStage.lessons.enumerated()), id: \.element.id) { index, lesson in
                         NavigationLink(value: LearningPathDestination.lessonDetail(lesson)) {
@@ -60,11 +52,9 @@ struct StageDetailView: View {
         }
     }
 
-    // MARK: - Header
 
     private var stageHeader: some View {
         VStack(spacing: 16) {
-            // Badge icon
             ZStack {
                 Circle()
                     .fill(
@@ -81,7 +71,6 @@ struct StageDetailView: View {
                     .foregroundStyle(.white)
             }
 
-            // Title & description
             VStack(spacing: 6) {
                 Text(liveStage.title)
                     .font(AppFont.bold(24))
@@ -93,7 +82,6 @@ struct StageDetailView: View {
             }
             .multilineTextAlignment(.center)
 
-            // Progress
             HStack(spacing: 12) {
                 ProgressBarView(
                     progress: liveStage.progressFraction,
@@ -107,7 +95,6 @@ struct StageDetailView: View {
                     .foregroundStyle(AppColors.textSecondary)
             }
 
-            // State badge
             Text(liveStage.state == .completed ? "Completed" : "In Progress")
                 .font(AppFont.medium(12))
                 .foregroundStyle(liveStage.state == .completed ? AppColors.successGreen : AppColors.primaryIndigo)
@@ -127,11 +114,9 @@ struct StageDetailView: View {
         .frame(maxWidth: .infinity)
     }
 
-    // MARK: - Lesson Row
 
     private func lessonRow(_ lesson: Lesson, index: Int) -> some View {
         HStack(spacing: 14) {
-            // Completion indicator
             ZStack {
                 Circle()
                     .fill(lesson.isCompleted ? AppColors.successGreen : Color(hex: "E8E0FF"))
@@ -148,7 +133,6 @@ struct StageDetailView: View {
                 }
             }
 
-            // Lesson info
             VStack(alignment: .leading, spacing: 4) {
                 Text(lesson.title)
                     .font(AppFont.medium(15))
@@ -175,7 +159,6 @@ struct StageDetailView: View {
 
             Spacer()
 
-            // Arrow for incomplete lessons
             if !lesson.isCompleted {
                 Image(systemName: "chevron.right")
                     .font(.system(size: 13, weight: .semibold))

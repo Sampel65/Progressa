@@ -2,23 +2,23 @@
 //  LearningPathViewModel.swift
 //  task
 //
+//  Created by Samson Oluwapelumi on 07/02/2026.
+//
+
 
 import SwiftUI
 
 @Observable
 final class LearningPathViewModel {
 
-    // MARK: - Dependencies
 
     let store: LearningStore
 
-    // MARK: - Local State
 
     var isLoading = false
     var errorMessage: String?
     var selectedStage: Stage?
 
-    // MARK: - Computed (reactive — reads from shared store)
 
     var learningPath: LearningPath? { store.learningPath }
 
@@ -42,13 +42,11 @@ final class LearningPathViewModel {
 
     var pathDescription: String { store.learningPath.description }
 
-    // MARK: - Init
 
     init(store: LearningStore) {
         self.store = store
     }
 
-    // MARK: - Actions
 
     func loadLearningPath() async {
         isLoading = true

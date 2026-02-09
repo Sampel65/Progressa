@@ -2,12 +2,12 @@
 //  ProgressBarView.swift
 //  task
 //
-//  Created by Samson Oluwapelumi on 08/02/2026.
+//  Created by Samson Oluwapelumi on 07/02/2026.
 //
+
 
 import SwiftUI
 
-// MARK: - Linear Progress Bar
 
 struct ProgressBarView: View {
     let progress: Double
@@ -43,7 +43,6 @@ struct ProgressBarView: View {
     }
 }
 
-// MARK: - Circular Progress View
 
 struct CircularProgressView: View {
     let progress: Double
@@ -90,7 +89,6 @@ struct CircularProgressView: View {
     }
 }
 
-// MARK: - Previews
 
 #Preview("Linear Progress") {
     VStack(spacing: 20) {

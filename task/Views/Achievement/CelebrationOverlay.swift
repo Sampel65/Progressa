@@ -5,6 +5,7 @@
 //  Created by Samson Oluwapelumi on 08/02/2026.
 //
 
+
 import SwiftUI
 
 struct CelebrationOverlay: View {
@@ -23,7 +24,6 @@ struct CelebrationOverlay: View {
 
     var body: some View {
         ZStack {
-            // Dimmed background
             Color(hex: "1A1A2E").opacity(backgroundOpacity * 0.75)
                 .ignoresSafeArea()
                 .onTapGesture { dismissWithAnimation() }
@@ -31,22 +31,18 @@ struct CelebrationOverlay: View {
             VStack(spacing: 0) {
                 Spacer()
 
-                // Confetti burst
                 if showConfetti {
                     ConfettiView()
                         .frame(height: 200)
                         .allowsHitTesting(false)
                 }
 
-                // Badge area with starburst
                 ZStack {
-                    // Starburst rays
                     CelebrationRaysView()
                         .frame(width: 260, height: 260)
                         .opacity(raysOpacity)
                         .rotationEffect(.degrees(raysRotation))
 
-                    // Pulsing rings
                     ForEach(0..<3, id: \.self) { index in
                         Circle()
                             .strokeBorder(
@@ -67,7 +63,6 @@ struct CelebrationOverlay: View {
                             )
                     }
 
-                    // Gradient badge ring
                     Circle()
                         .strokeBorder(
                             AngularGradient(
@@ -84,7 +79,6 @@ struct CelebrationOverlay: View {
                         .scaleEffect(badgeScale)
                         .opacity(badgeOpacity)
 
-                    // Badge icon
                     Circle()
                         .fill(
                             LinearGradient(
@@ -106,7 +100,6 @@ struct CelebrationOverlay: View {
                         .opacity(badgeOpacity)
                 }
 
-                // Text content
                 VStack(spacing: 10) {
                     Text("Achievement Unlocked!")
                         .font(AppFont.bold(24))
@@ -125,7 +118,6 @@ struct CelebrationOverlay: View {
                 .padding(.top, 20)
                 .opacity(contentOpacity)
 
-                // Action buttons
                 VStack(spacing: 12) {
                     Button(action: onShare) {
                         HStack(spacing: 8) {
@@ -174,7 +166,6 @@ struct CelebrationOverlay: View {
         .onAppear { animate() }
     }
 
-    // MARK: - Animations
 
     private func animate() {
         withAnimation(.easeOut(duration: 0.3)) {
@@ -227,10 +218,7 @@ struct CelebrationOverlay: View {
     }
 }
 
-// MARK: - Celebration Rays
 
-/// Reuses the shared 8-ray starburst but with lighter colours
-/// suited for the dark celebration overlay background.
 private struct CelebrationRaysView: View {
     var body: some View {
         BadgeStarburstView(
@@ -240,7 +228,6 @@ private struct CelebrationRaysView: View {
     }
 }
 
-// MARK: - Confetti View
 
 struct ConfettiView: View {
     @State private var particles: [ConfettiParticle] = []

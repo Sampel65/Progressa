@@ -2,13 +2,13 @@
 //  AppRouter.swift
 //  task
 //
-//  Created by Samson Oluwapelumi on 08/02/2026.
+//  Created by Samson Oluwapelumi on 07/02/2026.
 //
+
 
 import SwiftUI
 
-// MARK: - Tab Definition
-
+/// Represents the three main tabs in the app's bottom navigation.
 enum AppTab: Int, CaseIterable, Identifiable {
     case dashboard
     case learningPath
@@ -41,8 +41,10 @@ enum AppTab: Int, CaseIterable, Identifiable {
     }
 }
 
-// MARK: - Navigation Router
 
+/// Manages tab selection and navigation state for each tab.
+/// Maintains separate NavigationPath instances to allow independent navigation stacks per tab.
+/// Tapping the same tab twice resets its navigation stack (handled by views).
 @Observable
 final class AppRouter {
     var selectedTab: AppTab = .dashboard
@@ -50,6 +52,8 @@ final class AppRouter {
     var learningPathNavigationPath = NavigationPath()
     var achievementNavigationPath = NavigationPath()
 
+    /// Resets the navigation stack for the currently selected tab.
+    /// Used when tapping an already-selected tab to return to root.
     func resetCurrentTab() {
         switch selectedTab {
         case .dashboard:
@@ -70,24 +74,26 @@ final class AppRouter {
     }
 }
 
-// MARK: - Navigation Destinations
 
+/// Navigation destinations for the Dashboard tab.
 enum DashboardDestination: Hashable {
     case lessonDetail(Lesson)
     case stageDetail(Stage)
 }
 
+/// Navigation destinations for the Learning Path tab.
 enum LearningPathDestination: Hashable {
     case stageDetail(Stage)
     case lessonDetail(Lesson)
 }
 
+/// Navigation destinations for the Achievements tab.
 enum AchievementDestination: Hashable {
     case badgeDetail(Achievement)
 }
 
-// Make models Hashable for navigation
-
+/// Hashable conformance for navigation. Uses only the ID to ensure stable hashing
+/// regardless of other property changes (like completion status).
 extension Lesson: Hashable {
     nonisolated func hash(into hasher: inout Hasher) {
         hasher.combine(id)

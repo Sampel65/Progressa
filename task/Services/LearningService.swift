@@ -2,12 +2,12 @@
 //  LearningService.swift
 //  task
 //
-//  Created by Samson Oluwapelumi on 08/02/2026.
+//  Created by Samson Oluwapelumi on 07/02/2026.
 //
+
 
 import Foundation
 
-// MARK: - Learning Service Protocol
 
 protocol LearningServiceProtocol: Sendable {
     func fetchLearningPath() async -> LearningPath
@@ -18,12 +18,10 @@ protocol LearningServiceProtocol: Sendable {
     func unlockAchievement(achievementId: UUID) async -> Achievement?
 }
 
-// MARK: - Mock Learning Service
 
 final class MockLearningService: LearningServiceProtocol {
 
     func fetchLearningPath() async -> LearningPath {
-        // Simulate network delay
         try? await Task.sleep(for: .milliseconds(300))
         return MockData.learningPath
     }

@@ -5,6 +5,7 @@
 //  Created by Samson Oluwapelumi on 08/02/2026.
 //
 
+
 import SwiftUI
 
 struct AchievementView: View {
@@ -33,7 +34,6 @@ struct AchievementView: View {
         }
     }
 
-    // MARK: - Main Content
 
     @ViewBuilder
     private func achievementContent(vm: AchievementViewModel) -> some View {
@@ -89,7 +89,6 @@ struct AchievementView: View {
         }
     }
 
-    // MARK: - Awards Header
 
     @ViewBuilder
     private func awardsHeader(vm: AchievementViewModel) -> some View {
@@ -199,7 +198,6 @@ struct AchievementView: View {
         }
     }
 
-    // MARK: - Stats Row
 
     @ViewBuilder
     private func statsRow(vm: AchievementViewModel) -> some View {
@@ -250,7 +248,6 @@ struct AchievementView: View {
         )
     }
 
-    // MARK: - Category Filter
 
     @ViewBuilder
     private func categoryFilter(vm: AchievementViewModel) -> some View {
@@ -377,9 +374,6 @@ struct AchievementView: View {
     }
 }
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Earned Badge Card (Horizontal Carousel)
-// ═══════════════════════════════════════════════════════
 
 private struct EarnedBadgeCard: View {
     let achievement: Achievement
@@ -390,16 +384,13 @@ private struct EarnedBadgeCard: View {
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 12) {
-                // Badge circle with starburst decoration
                 ZStack {
-                    // 8-ray starburst behind badge
                     BadgeStarburstView(
                         fillColor: colorForCategory(achievement.category).opacity(0.3),
                         strokeColor: colorForCategory(achievement.category).opacity(0.15)
                     )
                     .frame(width: 100, height: 100)
 
-                    // Gradient border ring
                     Circle()
                         .strokeBorder(
                             AngularGradient(
@@ -414,7 +405,6 @@ private struct EarnedBadgeCard: View {
                         )
                         .frame(width: 68, height: 68)
 
-                    // Icon circle
                     Circle()
                         .fill(
                             LinearGradient(
@@ -434,13 +424,11 @@ private struct EarnedBadgeCard: View {
                         )
                 }
 
-                // Title
                 Text(achievement.title)
                     .font(AppFont.bold(14))
                     .foregroundStyle(AppColors.textPrimary)
                     .lineLimit(1)
 
-                // Category tag
                 Text(achievement.category.localizedTitle)
                     .font(AppFont.medium(10))
                     .foregroundStyle(colorForCategory(achievement.category))
@@ -451,7 +439,6 @@ private struct EarnedBadgeCard: View {
                             .fill(colorForCategory(achievement.category).opacity(0.1))
                     )
 
-                // Earned date
                 if let date = achievement.earnedDate {
                     HStack(spacing: 3) {
                         Image(systemName: "checkmark.circle.fill")
@@ -493,9 +480,6 @@ private struct EarnedBadgeCard: View {
     }
 }
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Locked Badge Row (Vertical List)
-// ═══════════════════════════════════════════════════════
 
 private struct LockedBadgeRow: View {
     let achievement: Achievement
@@ -503,7 +487,6 @@ private struct LockedBadgeRow: View {
 
     var body: some View {
         HStack(spacing: 14) {
-            // Lock icon badge
             ZStack {
                 Circle()
                     .fill(Color(hex: "F2F2F7"))
@@ -513,7 +496,6 @@ private struct LockedBadgeRow: View {
                     .font(.system(size: 22, weight: .medium))
                     .foregroundStyle(AppColors.badgeLocked.opacity(0.6))
 
-                // Lock overlay
                 Circle()
                     .fill(Color.white.opacity(0.5))
                     .frame(width: 54, height: 54)
@@ -524,7 +506,6 @@ private struct LockedBadgeRow: View {
                     .offset(x: 16, y: 16)
             }
 
-            // Text content
             VStack(alignment: .leading, spacing: 4) {
                 Text(achievement.title)
                     .font(AppFont.medium(15))
@@ -535,7 +516,6 @@ private struct LockedBadgeRow: View {
                     .foregroundStyle(AppColors.textSecondary)
                     .lineLimit(1)
 
-                // Hint
                 HStack(spacing: 4) {
                     Image(systemName: "lightbulb.fill")
                         .font(.system(size: 9))
@@ -550,7 +530,6 @@ private struct LockedBadgeRow: View {
 
             Spacer()
 
-            // Category indicator
             categoryDot(achievement.category)
         }
         .padding(14)

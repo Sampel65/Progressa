@@ -2,17 +2,18 @@
 //  WelcomeView.swift
 //  task
 //
+//  Created by Samson Oluwapelumi on 05/02/2026.
+//
+
 
 import SwiftUI
 import DotLottie
 
-// MARK: - Welcome View
 
 struct WelcomeView: View {
     let onGetStarted: () -> Void
     let onSignIn: () -> Void
 
-    // MARK: - Animation State
 
     @State private var logoScale: CGFloat = 0.3
     @State private var logoOpacity: Double = 0
@@ -51,7 +52,6 @@ struct WelcomeView: View {
         .onAppear { animateEntrance() }
     }
 
-    // MARK: - Background
 
     private var backgroundGradient: some View {
         ZStack {
@@ -85,7 +85,6 @@ struct WelcomeView: View {
         }
     }
 
-    // MARK: - Illustration
 
     private var illustrationArea: some View {
         ZStack {
@@ -100,7 +99,6 @@ struct WelcomeView: View {
 
     private var swiftUIFallbackIllustration: some View {
         ZStack {
-            // Rotating dashed ring
             Circle()
                 .strokeBorder(
                     style: StrokeStyle(lineWidth: 2, dash: [8, 6])
@@ -156,7 +154,6 @@ struct WelcomeView: View {
         }
     }
 
-    // MARK: - Title Section
 
     private var titleSection: some View {
         VStack(spacing: 14) {
@@ -175,7 +172,6 @@ struct WelcomeView: View {
         }
     }
 
-    // MARK: - Action Buttons
 
     private var actionButtons: some View {
         VStack(spacing: 14) {
@@ -196,7 +192,6 @@ struct WelcomeView: View {
         .opacity(buttonsOpacity)
     }
 
-    // MARK: - Sign In Link
 
     private var signInLink: some View {
         Button(action: onSignIn) {
@@ -213,7 +208,6 @@ struct WelcomeView: View {
         .opacity(buttonsOpacity)
     }
 
-    // MARK: - Animations
 
     private func animateEntrance() {
         withAnimation(.spring(response: 0.8, dampingFraction: 0.65).delay(0.2)) {

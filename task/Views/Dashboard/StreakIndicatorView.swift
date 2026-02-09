@@ -4,14 +4,10 @@
 //
 //  Created by Samson Oluwapelumi on 08/02/2026.
 //
-//  Note: The streak indicator is now integrated into the GreetingHeaderView top bar
-//  as a compact badge. This file provides the standalone version for reuse
-//  in other screens if needed.
-//
+
 
 import SwiftUI
 
-/// Compact streak badge used in the dashboard header top bar
 struct StreakBadge: View {
     let currentStreak: Int
 
@@ -32,7 +28,6 @@ struct StreakBadge: View {
     }
 }
 
-/// Full-size streak indicator for use in profile or detail screens
 struct StreakIndicatorView: View {
     let currentStreak: Int
     let longestStreak: Int

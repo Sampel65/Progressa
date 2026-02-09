@@ -2,10 +2,12 @@
 //  AuthContainerView.swift
 //  task
 //
+//  Created by Samson Oluwapelumi on 06/02/2026.
+//
+
 
 import SwiftUI
 
-// MARK: - Auth Flow Screen
 
 enum AuthScreen {
     case welcome
@@ -13,7 +15,6 @@ enum AuthScreen {
     case signup
 }
 
-// MARK: - Auth Container View
 
 struct AuthContainerView: View {
     let authStore: AuthStore

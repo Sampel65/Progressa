@@ -5,10 +5,9 @@
 //  Created by Samson Oluwapelumi on 08/02/2026.
 //
 
+
 import SwiftUI
 
-/// Standalone badge detail card usable in any context.
-/// Displays an achievement with its icon, title, description, state, and category.
 struct BadgeDetailView: View {
     let achievement: Achievement
     let onTap: () -> Void
@@ -18,10 +17,8 @@ struct BadgeDetailView: View {
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 12) {
-                // Badge circle with gradient
                 ZStack {
                     if achievement.isEarned {
-                        // Soft glow
                         Circle()
                             .fill(
                                 RadialGradient(
@@ -63,7 +60,6 @@ struct BadgeDetailView: View {
                         .scaleEffect(isAnimating && achievement.isEarned ? 1.04 : 1.0)
                 }
 
-                // Title
                 Text(achievement.title)
                     .font(AppFont.medium(14))
                     .foregroundStyle(
@@ -73,14 +69,12 @@ struct BadgeDetailView: View {
                     )
                     .lineLimit(1)
 
-                // Description
                 Text(achievement.description)
                     .font(AppFont.regular(11))
                     .foregroundStyle(AppColors.textSecondary)
                     .lineLimit(2)
                     .multilineTextAlignment(.center)
 
-                // Status
                 if achievement.isEarned, let date = achievement.earnedDate {
                     HStack(spacing: 3) {
                         Image(systemName: "checkmark.circle.fill")
@@ -101,7 +95,6 @@ struct BadgeDetailView: View {
                     .foregroundStyle(AppColors.badgeLocked)
                 }
 
-                // Category capsule
                 Text(achievement.category.localizedTitle)
                     .font(AppFont.medium(9))
                     .foregroundStyle(colorForCategory(achievement.category))

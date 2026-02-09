@@ -2,25 +2,14 @@
 //  LottieView.swift
 //  task
 //
-//  Created by Samson Oluwapelumi on 08/02/2026.
+//  Created by Samson Oluwapelumi on 06/02/2026.
 //
+
 
 import SwiftUI
 import DotLottie
 
-// ═══════════════════════════════════════════════════════
-// MARK: - DotLottie Animation Wrapper
-// ═══════════════════════════════════════════════════════
 
-/// A convenience SwiftUI wrapper around `DotLottieAnimation`.
-///
-/// Loads a `.json` or `.lottie` file from the app bundle by name.
-///
-/// Usage:
-/// ```
-/// LottieView(name: "success_checkmark", loop: false)
-///     .frame(width: 200, height: 200)
-/// ```
 struct LottieView: View {
     let name: String
     var loop: Bool = true
@@ -38,12 +27,7 @@ struct LottieView: View {
     }
 }
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Lottie + SwiftUI Fallback
-// ═══════════════════════════════════════════════════════
 
-/// Attempts to load a DotLottie animation from the bundle;
-/// falls back to a SwiftUI view if the file isn't found.
 struct LottieOrFallback<Fallback: View>: View {
     let name: String
     var loop: Bool = true

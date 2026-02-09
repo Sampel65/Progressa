@@ -2,15 +2,13 @@
 //  SignupView.swift
 //  task
 //
-//  Created by Samson Oluwapelumi on 08/02/2026.
+//  Created by Samson Oluwapelumi on 06/02/2026.
 //
+
 
 import SwiftUI
 import DotLottie
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Signup View
-// ═══════════════════════════════════════════════════════
 
 struct SignupView: View {
     let authStore: AuthStore
@@ -26,7 +24,6 @@ struct SignupView: View {
     @State private var agreedToTerms = false
     @State private var showSuccess = false
 
-    // Animation
     @State private var headerOpacity: Double = 0
     @State private var formOffset: CGFloat = 30
     @State private var formOpacity: Double = 0
@@ -41,18 +38,16 @@ struct SignupView: View {
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
-                    // ── Header (purple extends into top safe area) ──
                     signupHeader
                         .opacity(headerOpacity)
 
-                    // ── Form Card ──
+
                     formCard
                         .padding(.horizontal, 24)
                         .padding(.top, -32)
                         .offset(y: formOffset)
                         .opacity(formOpacity)
 
-                    // ── Sign In Link ──
                     signInLink
                         .padding(.top, 24)
                         .opacity(formOpacity)
@@ -63,7 +58,6 @@ struct SignupView: View {
             .scrollDismissesKeyboard(.interactively)
             .ignoresSafeArea(edges: .top)
 
-            // Success overlay
             if showSuccess {
                 successOverlay
             }
@@ -71,7 +65,6 @@ struct SignupView: View {
         .onAppear { animateIn() }
     }
 
-    // MARK: - Header
 
     private var signupHeader: some View {
         ZStack(alignment: .topLeading) {
@@ -105,7 +98,6 @@ struct SignupView: View {
             )
 
             VStack(alignment: .leading, spacing: 0) {
-                // Back button
                 Button(action: onBack) {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 18, weight: .semibold))
@@ -134,11 +126,9 @@ struct SignupView: View {
         }
     }
 
-    // MARK: - Form Card
 
     private var formCard: some View {
         VStack(spacing: 18) {
-            // Full name
             AuthTextField(
                 icon: "person.fill",
                 placeholder: String(localized: "Full name"),
@@ -149,7 +139,6 @@ struct SignupView: View {
             .submitLabel(.next)
             .onSubmit { focusedField = .email }
 
-            // Email
             AuthTextField(
                 icon: "envelope.fill",
                 placeholder: String(localized: "Email address"),
@@ -161,7 +150,6 @@ struct SignupView: View {
             .submitLabel(.next)
             .onSubmit { focusedField = .password }
 
-            // Password
             AuthSecureField(
                 icon: "lock.fill",
                 placeholder: String(localized: "Password (min 8 characters)"),
@@ -172,12 +160,10 @@ struct SignupView: View {
             .submitLabel(.next)
             .onSubmit { focusedField = .confirm }
 
-            // Password strength indicator
             if !password.isEmpty {
                 passwordStrengthBar
             }
 
-            // Confirm password
             AuthSecureField(
                 icon: "lock.rotation",
                 placeholder: String(localized: "Confirm password"),
@@ -188,10 +174,8 @@ struct SignupView: View {
             .submitLabel(.done)
             .onSubmit { signUp() }
 
-            // Terms toggle
             termsToggle
 
-            // Error message
             if let error = authStore.error {
                 HStack(spacing: 6) {
                     Image(systemName: "exclamationmark.triangle.fill")
@@ -204,7 +188,6 @@ struct SignupView: View {
                 .transition(.opacity.combined(with: .move(edge: .top)))
             }
 
-            // Create Account button
             Button(action: signUp) {
                 ZStack {
                     if authStore.isLoading {
@@ -249,7 +232,6 @@ struct SignupView: View {
         )
     }
 
-    // MARK: - Password Strength
 
     private var passwordStrength: (text: String, fraction: Double, color: Color) {
         let len = password.count
@@ -286,7 +268,6 @@ struct SignupView: View {
         .transition(.opacity)
     }
 
-    // MARK: - Terms Toggle
 
     private var termsToggle: some View {
         Button { agreedToTerms.toggle() } label: {
@@ -322,7 +303,6 @@ struct SignupView: View {
         .buttonStyle(.plain)
     }
 
-    // MARK: - Sign In Link
 
     private var signInLink: some View {
         Button(action: onSignIn) {
@@ -338,7 +318,6 @@ struct SignupView: View {
         }
     }
 
-    // MARK: - Success Overlay
 
     private var successOverlay: some View {
         ZStack {
@@ -365,7 +344,6 @@ struct SignupView: View {
         .transition(.opacity)
     }
 
-    // MARK: - Validation
 
     private var canSubmit: Bool {
         !fullName.trimmingCharacters(in: .whitespaces).isEmpty
@@ -375,7 +353,6 @@ struct SignupView: View {
         && agreedToTerms
     }
 
-    // MARK: - Actions
 
     private func signUp() {
         guard canSubmit else { return }

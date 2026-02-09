@@ -2,39 +2,32 @@
 //  AuthStore.swift
 //  task
 //
-//  Created by Samson Oluwapelumi on 08/02/2026.
+//  Created by Samson Oluwapelumi on 05/02/2026.
 //
+
 
 import Foundation
 
-// ═══════════════════════════════════════════════════════
-// MARK: - User Profile
-// ═══════════════════════════════════════════════════════
-
+/// User profile data structure containing account information.
 struct UserProfile: Codable, Equatable {
     let name: String
     let email: String
     let joinedDate: Date
 
+    /// Extracts the first name from the full name for personalized greetings.
     var firstName: String {
         name.components(separatedBy: " ").first ?? name
     }
 }
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Auth State
-// ═══════════════════════════════════════════════════════
-
+/// Represents the current authentication state of the app.
 enum AuthState: Equatable {
     case unknown
     case onboarding
     case authenticated(UserProfile)
 }
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Auth Error
-// ═══════════════════════════════════════════════════════
-
+/// Authentication-related error types with localized descriptions.
 enum AuthError: LocalizedError, Equatable {
     case invalidEmail
     case weakPassword
@@ -57,22 +50,21 @@ enum AuthError: LocalizedError, Equatable {
     }
 }
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Auth Store
-// ═══════════════════════════════════════════════════════
 
-/// Central observable store managing user authentication state.
-/// Credentials are persisted securely in the iOS Keychain.
+/// Manages authentication state and user session lifecycle.
+/// Handles sign up, sign in, session restoration, and credential storage in Keychain.
 @Observable
 final class AuthStore {
 
-    // MARK: - State
-
+    /// Current authentication state, private setter ensures state changes go through controlled methods.
     private(set) var authState: AuthState = .unknown
+    
+    /// Loading indicator for async authentication operations.
     var isLoading = false
+    
+    /// Current authentication error, if any.
     var error: AuthError?
 
-    // MARK: - Computed
 
     var isAuthenticated: Bool {
         if case .authenticated = authState { return true }
@@ -84,15 +76,14 @@ final class AuthStore {
         return nil
     }
 
-    // MARK: - Init
 
     init() {
         restoreSession()
     }
 
-    // MARK: - Session Restoration
 
-    /// Checks Keychain for existing credentials on app launch.
+    /// Attempts to restore a previous session from Keychain on app launch.
+    /// If valid credentials exist, restores the authenticated state; otherwise shows onboarding.
     private func restoreSession() {
         guard let isLoggedIn = KeychainHelper.read(key: KeychainHelper.Keys.isLoggedIn),
               isLoggedIn == "true",
@@ -105,18 +96,26 @@ final class AuthStore {
         let profile = UserProfile(
             name: name,
             email: email,
-            joinedDate: Date() // We don't persist this; could be extended
+            joinedDate: Date()
         )
         authState = .authenticated(profile)
     }
 
-    // MARK: - Sign Up
 
-    /// Creates a new account and persists credentials to Keychain.
+    /// Creates a new user account with validation and stores credentials securely.
+    /// Validates: name length (min 2), email format, password strength (min 8 chars), password match.
+    /// Checks for existing account to prevent duplicates.
+    /// Stores all credentials in Keychain and updates auth state on success.
+    ///
+    /// - Parameters:
+    ///   - name: User's full name
+    ///   - email: User's email address
+    ///   - password: User's chosen password
+    ///   - confirmPassword: Password confirmation for validation
+    /// - Returns: `true` if sign up succeeded, `false` if validation failed
     func signUp(name: String, email: String, password: String, confirmPassword: String) async -> Bool {
         error = nil
 
-        // Validation
         guard name.trimmingCharacters(in: .whitespaces).count >= 2 else {
             error = .nameTooShort
             return false
@@ -134,7 +133,6 @@ final class AuthStore {
             return false
         }
 
-        // Check if account already exists
         if let existingEmail = KeychainHelper.read(key: KeychainHelper.Keys.userEmail),
            existingEmail.lowercased() == email.lowercased() {
             error = .accountAlreadyExists
@@ -143,10 +141,8 @@ final class AuthStore {
 
         isLoading = true
 
-        // Simulate network delay for realistic UX
         try? await Task.sleep(for: .milliseconds(1200))
 
-        // Persist credentials
         let trimmedName = name.trimmingCharacters(in: .whitespaces)
         KeychainHelper.save(key: KeychainHelper.Keys.userName, value: trimmedName)
         KeychainHelper.save(key: KeychainHelper.Keys.userEmail, value: email.lowercased())
@@ -164,9 +160,7 @@ final class AuthStore {
         return true
     }
 
-    // MARK: - Sign In
 
-    /// Authenticates against locally stored credentials.
     func signIn(email: String, password: String) async -> Bool {
         error = nil
 
@@ -181,10 +175,8 @@ final class AuthStore {
 
         isLoading = true
 
-        // Simulate network delay
         try? await Task.sleep(for: .milliseconds(1000))
 
-        // Verify credentials
         guard let storedEmail = KeychainHelper.read(key: KeychainHelper.Keys.userEmail),
               let storedPassword = KeychainHelper.read(key: KeychainHelper.Keys.userPassword),
               storedEmail.lowercased() == email.lowercased(),
@@ -196,7 +188,6 @@ final class AuthStore {
 
         let name = KeychainHelper.read(key: KeychainHelper.Keys.userName) ?? "Learner"
 
-        // Update session
         KeychainHelper.save(key: KeychainHelper.Keys.isLoggedIn, value: "true")
 
         let profile = UserProfile(
@@ -210,7 +201,6 @@ final class AuthStore {
         return true
     }
 
-    // MARK: - Sign Out
 
     func signOut() {
         KeychainHelper.save(key: KeychainHelper.Keys.isLoggedIn, value: "false")
@@ -218,18 +208,17 @@ final class AuthStore {
         error = nil
     }
 
-    // MARK: - Clear All Data
 
-    /// Clears all authentication data from Keychain.
-    /// This is automatically called when the app is deleted, but can also be called manually.
     func clearAllData() {
         KeychainHelper.clearAll()
         authState = .onboarding
         error = nil
     }
 
-    // MARK: - Helpers
 
+    /// Validates email format using regex pattern matching.
+    /// Pattern requires: local part with alphanumeric and common symbols, @ symbol,
+    /// domain name, and TLD with at least 2 characters.
     private func isValidEmail(_ email: String) -> Bool {
         let pattern = #"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"#
         return email.range(of: pattern, options: .regularExpression) != nil

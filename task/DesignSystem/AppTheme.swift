@@ -2,10 +2,12 @@
 //  AppTheme.swift
 //  task
 //
+//  Created by Samson Oluwapelumi on 06/02/2026.
+//
+
 
 import SwiftUI
 
-// MARK: - App Font
 
 enum AppFont {
 
@@ -26,7 +28,6 @@ enum AppFont {
     }
 }
 
-// MARK: - Semantic Typography Tokens (Aeonik)
 
 enum AppTypography {
     static let callout      = AppFont.medium(15)
@@ -34,7 +35,6 @@ enum AppTypography {
     static let captionSmall = AppFont.regular(11)
 }
 
-// MARK: - App Colors
 
 enum AppColors {
     static let primaryIndigo = Color(hex: "4B3F8F")
@@ -60,7 +60,6 @@ enum AppColors {
     static let badgeLocked = Color(hex: "C7C7CC")
 }
 
-// MARK: - Color Extension for Hex
 
 extension Color {
     init(hex: String) {
@@ -88,7 +87,6 @@ extension Color {
     }
 }
 
-// MARK: - Spacing
 
 enum AppSpacing {
     static let xxs: CGFloat = 4
@@ -98,14 +96,12 @@ enum AppSpacing {
     static let xl: CGFloat = 24
 }
 
-// MARK: - Corner Radius
 
 enum AppCornerRadius {
     static let small: CGFloat = 8
     static let large: CGFloat = 16
 }
 
-// MARK: - Shadow
 
 struct AppShadow: ViewModifier {
     let radius: CGFloat
@@ -130,7 +126,6 @@ extension View {
     }
 }
 
-// MARK: - Gradient Definitions
 
 enum AppGradients {
     static let primary = LinearGradient(

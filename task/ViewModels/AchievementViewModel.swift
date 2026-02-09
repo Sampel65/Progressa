@@ -5,16 +5,15 @@
 //  Created by Samson Oluwapelumi on 08/02/2026.
 //
 
+
 import Foundation
 
 @Observable
 final class AchievementViewModel {
 
-    // MARK: - Dependencies
 
     let store: LearningStore
 
-    // MARK: - Local State
 
     var isLoading = false
     var errorMessage: String?
@@ -25,7 +24,6 @@ final class AchievementViewModel {
     var showShareSheet = false
     var shareText = ""
 
-    // MARK: - Computed (reactive — reads from shared store)
 
     var achievements: [Achievement] { store.achievements }
 
@@ -55,7 +53,6 @@ final class AchievementViewModel {
         AchievementCategory.allCases
     }
 
-    // MARK: - Stats (for header)
 
     var completedStagesCount: Int {
         store.learningPath.stages.filter { $0.state == .completed }.count
@@ -81,15 +78,12 @@ final class AchievementViewModel {
         store.userProgress.longestStreak
     }
 
-    // MARK: - Init
 
     init(store: LearningStore) {
         self.store = store
     }
 
-    // MARK: - Actions
 
-    /// Simulates initial data fetch.
     func loadAchievements() async {
         isLoading = true
         errorMessage = nil
@@ -124,7 +118,6 @@ final class AchievementViewModel {
         }
     }
 
-    /// Emoji icon for a category.
     func iconForCategory(_ category: AchievementCategory) -> String {
         switch category {
         case .milestone: return "flag.fill"

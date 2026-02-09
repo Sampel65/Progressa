@@ -5,6 +5,7 @@
 //  Created by Samson Oluwapelumi on 08/02/2026.
 //
 
+
 import SwiftUI
 
 struct TodayLessonCard: View {
@@ -14,22 +15,17 @@ struct TodayLessonCard: View {
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 0) {
-                // Left content: label + lesson row
                 VStack(alignment: .leading, spacing: 16) {
-                    // "For today" label
                     Text(String(localized: "For today"))
                         .font(AppFont.bold(16))
                         .foregroundStyle(Color(hex: "1A1A2E"))
 
-                    // Lesson row
                     HStack(spacing: 14) {
-                        // Badge icon
                         Image("Grey_badge")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 50, height: 50)
 
-                        // Lesson info
                         VStack(alignment: .leading, spacing: 5) {
                             Text(todayLesson.lesson.title)
                                 .font(AppFont.medium(16))
@@ -70,7 +66,6 @@ struct TodayLessonCard: View {
 
 #Preview {
     ZStack {
-        // Simulate the purple-to-white transition
         VStack(spacing: 0) {
             Color(hex: "D4C8FF").frame(height: 80)
             Color(hex: "F5F5FA")

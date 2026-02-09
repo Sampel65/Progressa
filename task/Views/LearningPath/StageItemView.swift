@@ -2,11 +2,14 @@
 //  StageItemView.swift
 //  task
 //
+//  Created by Samson Oluwapelumi on 07/02/2026.
+//
+
 
 import SwiftUI
 
-// MARK: - Badge Anchor Preference
-
+/// PreferenceKey for collecting badge center positions for connector path drawing.
+/// Uses Anchor<CGPoint> to get layout-relative positions that update with view changes.
 private struct BadgeAnchorKey: PreferenceKey {
     static var defaultValue: [Int: Anchor<CGPoint>] = [:]
     static func reduce(
@@ -17,13 +20,15 @@ private struct BadgeAnchorKey: PreferenceKey {
     }
 }
 
-// MARK: - Serpentine Stage Grid
 
+/// Displays learning path stages in a serpentine (zigzag) two-column layout.
+/// Alternates row direction to create a flowing path visualization with connecting lines.
 struct SerpentineStageGrid: View {
     let stages: [Stage]
     var onCompletedStageTap: ((Stage) -> Void)?
     var onCurrentStageTap: ((Stage) -> Void)?
 
+    /// Groups stages into rows of 2 for the serpentine layout.
     private var rows: [[Stage]] {
         stride(from: 0, to: stages.count, by: 2).map { i in
             Array(stages[i..<min(i + 2, stages.count)])
@@ -48,8 +53,9 @@ struct SerpentineStageGrid: View {
         }
     }
 
-    // MARK: - Row Layout
 
+    /// Renders a single row with alternating direction for serpentine effect.
+    /// Odd-indexed rows are reversed to create the zigzag pattern.
     @ViewBuilder
     private func serpentineRow(_ rowStages: [Stage], rowIndex: Int) -> some View {
         let isReversed = rowIndex % 2 == 1
@@ -85,7 +91,6 @@ struct SerpentineStageGrid: View {
     }
 }
 
-// MARK: - Path Stage Badge
 
 struct PathStageBadge: View {
     let stage: Stage
@@ -154,7 +159,6 @@ struct PathStageBadge: View {
         }
     }
 
-    // MARK: - Badge Icon
 
     private let pageBg = Color(hex: "F5F5FA")
 
@@ -202,12 +206,15 @@ struct PathStageBadge: View {
     }
 }
 
-// MARK: - Serpentine Connectors
 
+/// Draws connecting paths between stage badges using Canvas.
+/// Handles both horizontal connections (same row) and U-turn connections (between rows).
 struct SerpentineConnectors: View {
     let stages: [Stage]
     let positions: [Int: CGPoint]
 
+    /// Returns the edge offset from badge center based on stage state.
+    /// Completed stages use larger offset to connect from badge edge.
     private func edgeOffset(for stage: Stage) -> CGFloat {
         switch stage.state {
         case .completed: return 13
@@ -225,7 +232,6 @@ struct SerpentineConnectors: View {
         }
     }
 
-    // MARK: - Drawing
 
     private func draw(index i: Int, in ctx: inout GraphicsContext) {
         let from = stages[i]
@@ -264,7 +270,6 @@ struct SerpentineConnectors: View {
         }
     }
 
-    // MARK: Horizontal (within-row)
 
     private func drawHorizontalLine(
         a: CGPoint, b: CGPoint,
@@ -272,7 +277,6 @@ struct SerpentineConnectors: View {
         color: Color, style: StrokeStyle,
         in ctx: inout GraphicsContext
     ) {
-        // Determine which position is left vs right on screen
         let aIsLeft = a.x < b.x
         let leftStage  = aIsLeft ? fromStage : toStage
         let rightStage = aIsLeft ? toStage : fromStage
@@ -290,6 +294,9 @@ struct SerpentineConnectors: View {
         ctx.stroke(p, with: .color(color), style: style)
     }
 
+    /// Draws a U-turn connector between stages in different rows.
+    /// Uses cubic Bezier curves with calculated control points for smooth transitions.
+    /// Handles both offset (different x positions) and aligned (same x) cases.
     private func drawUTurn(
         a: CGPoint, b: CGPoint,
         fromStage: Stage, toStage: Stage,
@@ -300,8 +307,8 @@ struct SerpentineConnectors: View {
         let fromEdge = edgeOffset(for: fromStage)
         let toEdge   = edgeOffset(for: toStage)
 
-        let startY = a.y + fromEdge      // bottom tip of upper badge
-        let endY   = b.y - toEdge        // top tip of lower badge
+        let startY = a.y + fromEdge
+        let endY   = b.y - toEdge
         guard endY > startY + 4 else { return }
 
         let vSpan = endY - startY

@@ -2,15 +2,13 @@
 //  LoginView.swift
 //  task
 //
-//  Created by Samson Oluwapelumi on 08/02/2026.
+//  Created by Samson Oluwapelumi on 06/02/2026.
 //
+
 
 import SwiftUI
 import DotLottie
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Login View
-// ═══════════════════════════════════════════════════════
 
 struct LoginView: View {
     let authStore: AuthStore
@@ -22,7 +20,6 @@ struct LoginView: View {
     @State private var isPasswordVisible = false
     @State private var showSuccess = false
 
-    // Animation
     @State private var headerOpacity: Double = 0
     @State private var formOffset: CGFloat = 30
     @State private var formOpacity: Double = 0
@@ -37,18 +34,15 @@ struct LoginView: View {
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
-                    // ── Header ──
                     loginHeader
                         .opacity(headerOpacity)
-
-                    // ── Form Card ──
+                    
                     formCard
                         .padding(.horizontal, 24)
                         .padding(.top, -32)
                         .offset(y: formOffset)
                         .opacity(formOpacity)
 
-                    // ── Sign Up Link ──
                     signUpLink
                         .padding(.top, 28)
                         .opacity(formOpacity)
@@ -59,7 +53,6 @@ struct LoginView: View {
             .scrollDismissesKeyboard(.interactively)
             .ignoresSafeArea(edges: .top)
 
-            // Success overlay
             if showSuccess {
                 successOverlay
             }
@@ -67,7 +60,6 @@ struct LoginView: View {
         .onAppear { animateIn() }
     }
 
-    // MARK: - Header
 
     private var loginHeader: some View {
         ZStack(alignment: .topLeading) {
@@ -87,7 +79,6 @@ struct LoginView: View {
                 )
             )
             .overlay(
-                // Decorative circles
                 ZStack {
                     Circle()
                         .fill(Color.white.opacity(0.04))
@@ -102,7 +93,6 @@ struct LoginView: View {
             )
 
             VStack(alignment: .leading, spacing: 0) {
-                // Back button
                 Button(action: onBack) {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 18, weight: .semibold))
@@ -131,11 +121,9 @@ struct LoginView: View {
         }
     }
 
-    // MARK: - Form Card
 
     private var formCard: some View {
         VStack(spacing: 22) {
-            // Email field
             AuthTextField(
                 icon: "envelope.fill",
                 placeholder: String(localized: "Email address"),
@@ -147,7 +135,6 @@ struct LoginView: View {
             .submitLabel(.next)
             .onSubmit { focusedField = .password }
 
-            // Password field
             AuthSecureField(
                 icon: "lock.fill",
                 placeholder: String(localized: "Password"),
@@ -158,7 +145,6 @@ struct LoginView: View {
             .submitLabel(.done)
             .onSubmit { signIn() }
 
-            // Error message
             if let error = authStore.error {
                 HStack(spacing: 6) {
                     Image(systemName: "exclamationmark.triangle.fill")
@@ -171,7 +157,6 @@ struct LoginView: View {
                 .transition(.opacity.combined(with: .move(edge: .top)))
             }
 
-            // Sign In button
             Button(action: signIn) {
                 ZStack {
                     if authStore.isLoading {
@@ -211,7 +196,6 @@ struct LoginView: View {
         )
     }
 
-    // MARK: - Sign Up Link
 
     private var signUpLink: some View {
         Button(action: onSignUp) {
@@ -227,7 +211,6 @@ struct LoginView: View {
         }
     }
 
-    // MARK: - Success Overlay
 
     private var successOverlay: some View {
         ZStack {
@@ -250,7 +233,6 @@ struct LoginView: View {
         .transition(.opacity)
     }
 
-    // MARK: - Actions
 
     private func signIn() {
         focusedField = nil
@@ -277,9 +259,6 @@ struct LoginView: View {
     }
 }
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Auth Text Field
-// ═══════════════════════════════════════════════════════
 
 struct AuthTextField: View {
     let icon: String
@@ -314,9 +293,6 @@ struct AuthTextField: View {
     }
 }
 
-// ═══════════════════════════════════════════════════════
-// MARK: - Auth Secure Field
-// ═══════════════════════════════════════════════════════
 
 struct AuthSecureField: View {
     let icon: String
