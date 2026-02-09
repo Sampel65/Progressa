@@ -108,7 +108,7 @@ struct CelebrationOverlay: View {
 
                 // Text content
                 VStack(spacing: 10) {
-                    Text(String(localized: "Achievement Unlocked!"))
+                    Text("Achievement Unlocked!")
                         .font(AppFont.bold(24))
                         .foregroundStyle(.white)
 
@@ -131,7 +131,7 @@ struct CelebrationOverlay: View {
                         HStack(spacing: 8) {
                             Image(systemName: "square.and.arrow.up")
                                 .font(.system(size: 15, weight: .semibold))
-                            Text(String(localized: "Share Achievement"))
+                            Text("Share Achievement")
                                 .font(AppFont.bold(15))
                         }
                         .foregroundStyle(.white)
@@ -153,7 +153,7 @@ struct CelebrationOverlay: View {
                     }
 
                     Button(action: { dismissWithAnimation() }) {
-                        Text(String(localized: "Continue"))
+                        Text("Continue")
                             .font(AppFont.medium(15))
                             .foregroundStyle(.white.opacity(0.65))
                             .frame(maxWidth: .infinity)

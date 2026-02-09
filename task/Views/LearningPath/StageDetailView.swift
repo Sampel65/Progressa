@@ -102,13 +102,13 @@ struct StageDetailView: View {
                 )
                 .frame(width: 120)
 
-                Text(L10n.lessonsProgress(completed: liveStage.completedLessonsCount, total: liveStage.lessons.count))
+                Text("\(liveStage.completedLessonsCount) of \(liveStage.lessons.count) lessons")
                     .font(AppFont.medium(13))
                     .foregroundStyle(AppColors.textSecondary)
             }
 
             // State badge
-            Text(liveStage.state == .completed ? String(localized: "Completed") : String(localized: "In Progress"))
+            Text(liveStage.state == .completed ? "Completed" : "In Progress")
                 .font(AppFont.medium(12))
                 .foregroundStyle(liveStage.state == .completed ? AppColors.successGreen : AppColors.primaryIndigo)
                 .padding(.horizontal, 14)

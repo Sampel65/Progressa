@@ -19,8 +19,8 @@ enum AppTab: Int, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .dashboard: String(localized: "Home")
-        case .learningPath: String(localized: "Learn")
-        case .achievements: String(localized: "Awards")
+        case .learningPath: "Learn"
+        case .achievements: "Awards"
         }
     }
 

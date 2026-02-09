@@ -13,7 +13,7 @@ Key features:
 - Progress tracking with streak counters
 - Secure authentication using Keychain
 - Data persistence across app restarts
-- Full localization support (English, Spanish, French)
+- Localization support for Dashboard and Authentication (English, Spanish, French)
 
 ## Getting Started
 
@@ -102,7 +102,7 @@ Progress is saved to `Application Support/Progressa/learning_progress.json` afte
 
 ### Localization
 
-The app supports English, Spanish, and French. All strings use String Catalogs (`.xcstrings` format). The L10n helper provides type-safe localization functions for formatted strings and pluralization.
+The app supports localization for Dashboard and Authentication screens in English, Spanish, and French. Learning path content (lessons, stages, achievements) is displayed in English only. All localized strings use String Catalogs (`.xcstrings` format). The L10n helper provides type-safe localization functions for formatted strings and pluralization used in the Dashboard.
 
 ## Design System
 
@@ -156,7 +156,7 @@ The project is organized into a few main folders:
 
 **Animations folder**: Contains all the Lottie JSON files for animations.
 
-**Resources folder**: `Localizable.xcstrings` has all the localization strings for English, Spanish, and French.
+**Resources folder**: `Localizable.xcstrings` contains localization strings for Dashboard and Authentication views in English, Spanish, and French (approximately 60 strings total).
 
 ## Technical Details
 
@@ -178,12 +178,16 @@ Progress is saved as JSON in Application Support. Files are automatically delete
 
 ### Localization Implementation
 
-All strings use `String(localized:)`. The L10n helper provides functions like `stageOfTotal()`, `lessonsProgress()`, `streakDays()`, and `badgeCount()` for formatted strings with proper pluralization.
+Localization is limited to Dashboard and Authentication views. These screens use `String(localized:)` for all user-facing text. The L10n helper provides functions like `stageOfTotal()`, `lessonsProgress()`, `streakDays()`, and `badgeCount()` for formatted strings with proper pluralization used in the Dashboard.
+
+Learning path content (lesson titles, stage descriptions, achievement names) is hardcoded in English and does not use localization. This keeps the content consistent regardless of device language settings.
+
+The `Localizable.xcstrings` file contains only strings used in Dashboard and Auth views (approximately 60 strings total), with translations for Spanish and French.
 
 To add a new language:
 1. Open `Localizable.xcstrings` in Xcode
 2. Add the language
-3. Translate the strings
+3. Translate the Dashboard and Auth strings
 4. Build and test
 
 ## Data Flow

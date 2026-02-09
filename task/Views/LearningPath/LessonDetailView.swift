@@ -125,7 +125,7 @@ struct LessonDetailView: View {
                     .foregroundStyle(AppColors.primaryIndigo)
 
                 if let stage = parentStage {
-                    Label(String(format: String(localized: "Stage %lld"), Int64(stage.stageNumber)), systemImage: "flag.fill")
+                    Label("Stage \(stage.stageNumber)", systemImage: "flag.fill")
                         .font(AppFont.medium(13))
                         .foregroundStyle(AppColors.primaryIndigo)
                 }
@@ -142,7 +142,7 @@ struct LessonDetailView: View {
                 HStack(spacing: 6) {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundStyle(AppColors.successGreen)
-                    Text(String(localized: "Already completed"))
+                    Text("Already completed")
                         .font(AppFont.medium(14))
                         .foregroundStyle(AppColors.successGreen)
                 }
@@ -157,7 +157,7 @@ struct LessonDetailView: View {
 
     private var lessonContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(String(localized: "Lesson Overview"))
+            Text("Lesson Overview")
                 .font(AppFont.bold(18))
                 .foregroundStyle(AppColors.textPrimary)
 
@@ -169,7 +169,7 @@ struct LessonDetailView: View {
             Divider()
                 .padding(.vertical, 4)
 
-            Text(String(localized: "Key Takeaways"))
+            Text("Key Takeaways")
                 .font(AppFont.bold(16))
                 .foregroundStyle(AppColors.textPrimary)
 
@@ -205,7 +205,7 @@ struct LessonDetailView: View {
             HStack(spacing: 8) {
                 Image(systemName: "checkmark.circle")
                     .font(.system(size: 18, weight: .semibold))
-                Text(String(localized: "Mark as Complete"))
+                Text("Mark as Complete")
                     .font(AppFont.bold(16))
             }
             .foregroundStyle(.white)
@@ -241,11 +241,11 @@ struct LessonDetailView: View {
             }
             .frame(width: 140, height: 140)
 
-            Text(String(localized: "Lesson Complete!"))
+            Text("Lesson Complete!")
                 .font(AppFont.bold(24))
                 .foregroundStyle(AppColors.textPrimary)
 
-            Text(String(localized: "Great work! Keep the momentum going."))
+            Text("Great work! Keep the momentum going.")
                 .font(AppFont.regular(16))
                 .foregroundStyle(AppColors.textSecondary)
 
@@ -253,7 +253,7 @@ struct LessonDetailView: View {
             Button {
                 dismiss()
             } label: {
-                Text(String(localized: "Continue"))
+                Text("Continue")
                     .font(AppFont.bold(16))
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
@@ -288,15 +288,15 @@ struct LessonDetailView: View {
     // MARK: - Mock Content Strings
 
     private var overviewText: String {
-        String(format: String(localized: "In this lesson you'll explore the core concepts of %@. Through practical examples and hands-on exercises, you'll build a strong understanding of the fundamentals that underpin modern software development. By the end, you'll be able to apply these concepts confidently in real-world projects."), lesson.title)
+        "In this lesson you'll explore the core concepts of \(lesson.title). Through practical examples and hands-on exercises, you'll build a strong understanding of the fundamentals that underpin modern software development. By the end, you'll be able to apply these concepts confidently in real-world projects."
     }
 
     private var keyTakeaways: [String] {
         [
-            String(format: String(localized: "Understand the fundamental principles of %@"), lesson.subtitle),
-            String(localized: "Apply techniques through practical coding exercises"),
-            String(localized: "Build confidence with real-world scenario walkthroughs"),
-            String(localized: "Prepare for the next lesson in the learning path"),
+            "Understand the fundamental principles of \(lesson.subtitle)",
+            "Apply techniques through practical coding exercises",
+            "Build confidence with real-world scenario walkthroughs",
+            "Prepare for the next lesson in the learning path",
         ]
     }
 }

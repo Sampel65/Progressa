@@ -99,7 +99,7 @@ struct LearningPathView: View {
             }
             .padding(.bottom, 10)
 
-            Text(L10n.stageOfTotal(vm.currentStageNumber, total: vm.totalStagesCount))
+            Text("Stage \(vm.currentStageNumber) of \(vm.totalStagesCount)")
                 .font(AppFont.regular(14))
                 .foregroundStyle(AppColors.textSecondary)
 
@@ -119,7 +119,7 @@ struct LearningPathView: View {
             ProgressView()
                 .controlSize(.large)
                 .tint(AppColors.primaryIndigo)
-            Text(String(localized: "Loading learning path..."))
+            Text("Loading learning path...")
                 .font(AppTypography.callout)
                 .foregroundStyle(AppColors.textSecondary)
         }

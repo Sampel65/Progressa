@@ -114,13 +114,13 @@ enum AchievementCategory: String, Codable, CaseIterable {
     case mastery = "Mastery"
     case special = "Special"
 
-    /// Localized display title for UI.
+    /// Display title for UI (English only).
     var localizedTitle: String {
         switch self {
-        case .milestone: return String(localized: "Milestone")
-        case .streak: return String(localized: "Streak")
-        case .mastery: return String(localized: "Mastery")
-        case .special: return String(localized: "Special")
+        case .milestone: return "Milestone"
+        case .streak: return "Streak"
+        case .mastery: return "Mastery"
+        case .special: return "Special"
         }
     }
 }

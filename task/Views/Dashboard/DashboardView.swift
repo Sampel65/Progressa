@@ -140,7 +140,7 @@ struct DashboardView: View {
                 Button {
                     store.dismissMilestone()
                 } label: {
-                    Text("Continue")
+                    Text(String(localized: "Continue"))
                         .font(AppFont.bold(16))
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)

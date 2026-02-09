@@ -130,11 +130,11 @@ struct AchievementView: View {
             VStack(spacing: 16) {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(String(localized: "Awards"))
+                        Text("Awards")
                             .font(AppFont.bold(28))
                             .foregroundStyle(.white)
 
-                        Text(String(localized: "Your learning journey milestones"))
+                        Text("Your learning journey milestones")
                             .font(AppFont.regular(14))
                             .foregroundStyle(.white.opacity(0.7))
                     }
@@ -190,12 +190,12 @@ struct AchievementView: View {
     private func headerMotivation(earned: Int, total: Int) -> String {
         let pct = total > 0 ? Double(earned) / Double(total) : 0
         switch pct {
-        case 0: return String(localized: "Start learning to earn your first badge!")
-        case ..<0.25: return String(localized: "You're just getting started — keep it up!")
-        case ..<0.5: return String(localized: "Great progress! Almost halfway there.")
-        case ..<0.75: return String(localized: "Over halfway! Your collection is growing.")
-        case ..<1.0: return String(localized: "So close to collecting them all!")
-        default: return String(localized: "You've earned every badge. Legend!")
+        case 0: return "Start learning to earn your first badge!"
+        case ..<0.25: return "You're just getting started — keep it up!"
+        case ..<0.5: return "Great progress! Almost halfway there."
+        case ..<0.75: return "Over halfway! Your collection is growing."
+        case ..<1.0: return "So close to collecting them all!"
+        default: return "You've earned every badge. Legend!"
         }
     }
 
@@ -207,21 +207,21 @@ struct AchievementView: View {
             statCard(
                 icon: "checkmark.circle.fill",
                 value: "\(vm.completedStagesCount)",
-                label: String(localized: "Stages"),
+                label: "Stages",
                 color: AppColors.successGreen
             )
 
             statCard(
                 icon: "book.closed.fill",
                 value: "\(vm.lessonsCompleted)",
-                label: String(localized: "Lessons"),
+                label: "Lessons",
                 color: AppColors.primaryLight
             )
 
             statCard(
                 icon: "flame.fill",
                 value: "\(vm.currentStreak)",
-                label: String(localized: "Day Streak"),
+                label: "Day Streak",
                 color: AppColors.streakFlame
             )
         }
@@ -257,7 +257,7 @@ struct AchievementView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
                 filterChip(
-                    title: String(localized: "All"),
+                    title: "All",
                     icon: "square.grid.2x2.fill",
                     isSelected: vm.selectedCategory == nil,
                     action: { vm.selectCategory(nil) }
@@ -300,11 +300,11 @@ struct AchievementView: View {
     private func earnedSection(achievements: [Achievement], vm: AchievementViewModel) -> some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack(alignment: .firstTextBaseline) {
-                Text(String(localized: "Earned"))
+                Text("Earned")
                     .font(AppFont.bold(20))
                     .foregroundStyle(AppColors.textPrimary)
 
-                Text(L10n.badgeCount(achievements.count))
+                Text("\(achievements.count) \(achievements.count == 1 ? "badge" : "badges")")
                     .font(AppFont.regular(13))
                     .foregroundStyle(AppColors.textSecondary)
 
@@ -328,11 +328,11 @@ struct AchievementView: View {
     private func lockedSection(achievements: [Achievement], vm: AchievementViewModel) -> some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack(alignment: .firstTextBaseline) {
-                Text(String(localized: "Keep Going"))
+                Text("Keep Going")
                     .font(AppFont.bold(20))
                     .foregroundStyle(AppColors.textPrimary)
 
-                Text("\(achievements.count) \(String(localized: "remaining"))")
+                Text("\(achievements.count) remaining")
                     .font(AppFont.regular(13))
                     .foregroundStyle(AppColors.textSecondary)
 
@@ -354,13 +354,13 @@ struct AchievementView: View {
         switch achievement.category {
         case .mastery:
             let desc = achievement.description.replacingOccurrences(of: "Complete ", with: "")
-            return String(format: String(localized: "Complete the \"%1$@\" to earn this"), desc)
+            return "Complete the \"\(desc)\" to earn this"
         case .streak:
-            return String(localized: "Keep your daily streak going")
+            return "Keep your daily streak going"
         case .milestone:
-            return String(localized: "Continue making progress on your learning path")
+            return "Continue making progress on your learning path"
         case .special:
-            return String(localized: "Push yourself further to unlock this reward")
+            return "Push yourself further to unlock this reward"
         }
     }
 
@@ -369,7 +369,7 @@ struct AchievementView: View {
             ProgressView()
                 .controlSize(.large)
                 .tint(AppColors.primaryIndigo)
-            Text(String(localized: "Loading awards..."))
+            Text("Loading awards...")
                 .font(AppFont.regular(15))
                 .foregroundStyle(AppColors.textSecondary)
         }
