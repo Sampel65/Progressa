@@ -238,6 +238,14 @@ final class LearningStore {
         persist()
     }
 
+    // MARK: - Clear All Data
+
+    /// Clears all learning progress data from disk.
+    /// This is automatically called when the app is deleted, but can also be called manually.
+    func clearAllData() {
+        LearningProgressPersistence.clearAll()
+    }
+
     // MARK: - Persistence
 
     private func persist() {

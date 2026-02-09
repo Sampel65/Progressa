@@ -288,15 +288,15 @@ struct LessonDetailView: View {
     // MARK: - Mock Content Strings
 
     private var overviewText: String {
-        "In this lesson you'll explore the core concepts of \(lesson.title.lowercased()). Through practical examples and hands-on exercises, you'll build a strong understanding of the fundamentals that underpin modern software development. By the end, you'll be able to apply these concepts confidently in real-world projects."
+        String(format: String(localized: "In this lesson you'll explore the core concepts of %@. Through practical examples and hands-on exercises, you'll build a strong understanding of the fundamentals that underpin modern software development. By the end, you'll be able to apply these concepts confidently in real-world projects."), lesson.title)
     }
 
     private var keyTakeaways: [String] {
         [
-            "Understand the fundamental principles of \(lesson.subtitle.lowercased())",
-            "Apply techniques through practical coding exercises",
-            "Build confidence with real-world scenario walkthroughs",
-            "Prepare for the next lesson in the learning path",
+            String(format: String(localized: "Understand the fundamental principles of %@"), lesson.subtitle),
+            String(localized: "Apply techniques through practical coding exercises"),
+            String(localized: "Build confidence with real-world scenario walkthroughs"),
+            String(localized: "Prepare for the next lesson in the learning path"),
         ]
     }
 }

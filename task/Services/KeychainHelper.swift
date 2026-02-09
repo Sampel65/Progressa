@@ -14,9 +14,19 @@ import Security
 
 /// A lightweight wrapper around the iOS Keychain for securely
 /// storing user credentials locally on the device.
+/// 
+/// Keychain items are automatically deleted when the app is uninstalled
+/// due to the `kSecAttrAccessibleWhenUnlockedThisDeviceOnly` accessibility setting.
 enum KeychainHelper {
 
-    private static let serviceName = "com.samson.task.auth"
+    private static let serviceName: String = {
+        // Use the app's bundle identifier for proper scoping
+        // This ensures Keychain items are tied to the app and deleted on uninstall
+        if let bundleId = Bundle.main.bundleIdentifier {
+            return "\(bundleId).auth"
+        }
+        return "com.samson.task.auth"
+    }()
 
     // MARK: - Public API
 
@@ -33,6 +43,8 @@ enum KeychainHelper {
             kSecAttrService as String: serviceName,
             kSecAttrAccount as String: key,
             kSecValueData as String: data,
+            // This accessibility setting ensures Keychain items are automatically
+            // deleted when the app is uninstalled from the device
             kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
         ]
 
@@ -76,6 +88,7 @@ enum KeychainHelper {
     }
 
     /// Removes all items stored by this app.
+    /// This is automatically called when the app is deleted, but can also be called manually.
     static func clearAll() {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,

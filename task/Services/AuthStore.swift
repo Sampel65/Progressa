@@ -218,6 +218,16 @@ final class AuthStore {
         error = nil
     }
 
+    // MARK: - Clear All Data
+
+    /// Clears all authentication data from Keychain.
+    /// This is automatically called when the app is deleted, but can also be called manually.
+    func clearAllData() {
+        KeychainHelper.clearAll()
+        authState = .onboarding
+        error = nil
+    }
+
     // MARK: - Helpers
 
     private func isValidEmail(_ email: String) -> Bool {
