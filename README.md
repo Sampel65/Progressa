@@ -17,6 +17,33 @@ Key features:
 
 ## Getting Started
 
+## App Demo screenshot and Videos
+
+
+## App Demo screeshot for Spanish
+Demo video : https://drive.google.com/file/d/1Rm-dZ_QzxTIzODVyoS9S-OmcbJLn-B4v/view?usp=drive_link
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 05 00" src="https://github.com/user-attachments/assets/e5082281-d00a-4acd-a567-2cf820f33f3a" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 05 00" src="https://github.com/user-attachments/assets/e5082281-d00a-4acd-a567-2cf820f33f3a" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 07 45" src="https://github.com/user-attachments/assets/4dd68d7f-923e-40a4-87f0-31b563ef7eae" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 07 45" src="https://github.com/user-attachments/assets/4dd68d7f-923e-40a4-87f0-31b563ef7eae" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 07 41" src="https://github.com/user-attachments/assets/b3e27d6a-8db8-4f08-a70b-71ca65649428" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 07 41" src="https://github.com/user-attachments/assets/b3e27d6a-8db8-4f08-a70b-71ca65649428" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 07 33" src="https://github.com/user-attachments/assets/27438018-b2c0-441a-b9c6-b80fce7de56e" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 07 33" src="https://github.com/user-attachments/assets/27438018-b2c0-441a-b9c6-b80fce7de56e" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 07 19" src="https://github.com/user-attachments/assets/7eaf682c-9370-491c-86bb-274789285ddd" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 07 19" src="https://github.com/user-attachments/assets/7eaf682c-9370-491c-86bb-274789285ddd" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 07 07" src="https://github.com/user-attachments/assets/22a5cd1a-9296-415f-9551-7a39a5b7a709" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 07 07" src="https://github.com/user-attachments/assets/22a5cd1a-9296-415f-9551-7a39a5b7a709" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 06 56" src="https://github.com/user-attachments/assets/b43d19cd-47cf-41d3-88b4-00c7f9ddb526" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 06 56" src="https://github.com/user-attachments/assets/b43d19cd-47cf-41d3-88b4-00c7f9ddb526" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 06 46" src="https://github.com/user-attachments/assets/c1d14545-a823-48c7-8d62-e204e0d47f07" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 06 46" src="https://github.com/user-attachments/assets/c1d14545-a823-48c7-8d62-e204e0d47f07" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 05 08" src="https://github.com/user-attachments/assets/33e1b632-8a2c-440c-b5ce-eb60e9d15ae2" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 05 08" src="https://github.com/user-attachments/assets/33e1b632-8a2c-440c-b5ce-eb60e9d15ae2" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 05 05" src="https://github.com/user-attachments/assets/dcc91256-9572-4bd0-b65b-6c8bc3a7107a" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 14 05 05" src="https://github.com/user-attachments/assets/dcc91256-9572-4bd0-b65b-6c8bc3a7107a" />
+
+
 ### Requirements
 
 - Xcode 15.0+
