@@ -21,8 +21,10 @@ APP DEMO
 <img width="642" height="1389" alt="Screenshot 2026-02-09 at 09 44 57" src="https://github.com/user-attachments/assets/2b619a4d-3871-4442-9195-7aef9cff9fdc" />
 <img width="642" height="1389" alt="Screenshot 2026-02-09 at 09 45 24" src="https://github.com/user-attachments/assets/01a3aedc-f1d7-47c0-b944-3054522f2df4" />
 <img width="642" height="1389" alt="Screenshot 2026-02-09 at 09 50 10" src="https://github.com/user-attachments/assets/80a438df-e752-443f-a3dc-b62e4555f4b8" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 10 16 33" src="https://github.com/user-attachments/assets/7c53b5e8-cbc4-4c76-87a7-dcd83a6a240e" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-02-09 at 10 16 42" src="https://github.com/user-attachments/assets/44b3b1ca-b962-4121-81ae-8692e1fbf903" />
 
-App English Demo : https://drive.google.com/file/d/1jbXdsXFECYH6NjOh9oB0Z7OXPbUlLz7e/view?usp=drive_link
+App English Demo : https://drive.google.com/file/d/1YSfbQtcHKSkfD1dTzuajXV_c18zVxzH-/view?usp=drive_link
 
 
 https://github.com/user-attachments/assets/504d195c-0083-4cc2-ba24-4704166022ab
