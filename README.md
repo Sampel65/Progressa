@@ -14,6 +14,7 @@ Key features:
 - Secure authentication using Keychain
 - Data persistence across app restarts
 - Localization support for Dashboard and Authentication (English, Spanish, French)
+- Social sharing for achievements via native iOS share sheet
 
 
 
@@ -117,6 +118,13 @@ Achievements unlock automatically when you hit milestones:
 
 The achievement sheet includes animations, badge flip effects, and social sharing. You can filter achievements by category.
 
+**Social Sharing:**
+- Share achievements from the celebration overlay when badges are unlocked
+- Share from the achievement detail sheet when viewing completed stage badges
+- Uses native iOS `UIActivityViewController` for sharing via Messages, Mail, Twitter, Facebook, and other apps
+- Share text includes achievement title, description, and motivational messaging
+- Mock implementation that can be extended with custom sharing options or deep links
+  
 ### Lesson Completion
 
 When you complete a lesson, you tap "Mark as Complete", a celebration animation plays, and the store updates everything - lesson status, progress, stage completion checks, achievement unlocks, and streak. All screens update automatically thanks to the reactive store. Milestone alerts show for stage completions.
